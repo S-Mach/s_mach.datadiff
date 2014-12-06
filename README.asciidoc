@@ -1,0 +1,8 @@
+= s_mach.datadiff: Case class difference library
+Lance Gatlin <lance.gatlin@gmail.com>
+v1,06-Oct-2014
+:blogpost-status: unpublished
+:blogpost-categories: s_mach, scala
+
+*UNDER CONSTRUCTION*
+
