@@ -1,6 +1,8 @@
 package s_mach
 
-import s_mach.datadiff.impl.{SetDiff, OptionDiff, SimpleDiff}
+import scala.language.higherKinds
+import s_mach.datadiff.impl.{SeqDiff, SetDiff, OptionDiff, SimpleDiff}
+import scala.collection.generic.CanBuildFrom
 
 package object datadiff {
   implicit object Diff_Byte extends SimpleDiff[Byte]
@@ -15,9 +17,10 @@ package object datadiff {
   implicit def mkDiff_Option[A,Patch](implicit
     aDiff:Diff[A,Patch]
   ) = new OptionDiff[A,Patch]
-  implicit def mkDiff_Set[A,Patch](implicit
-    aDiff:Diff[A,Patch]
-  ) = new SetDiff[A,Patch]
+  implicit def mkDiff_Set[A] = new SetDiff[A]
+  implicit def mkDiff_Seq[A,M[AA] <: Seq[AA]](implicit
+    cbf: CanBuildFrom[Nothing, A, M[A]]
+  ) = new SeqDiff[A,M]
 
   implicit class SMach_Datadiff_PimpEverything[A](val self: A) extends AnyVal {
     def diff[Patch](other: A)(implicit aDiff:Diff[A,Patch]) : Option[Patch] =

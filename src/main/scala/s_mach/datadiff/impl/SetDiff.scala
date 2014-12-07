@@ -6,8 +6,7 @@ import scala.collection.generic.CanBuildFrom
 
 case class SetPatch[A](add: Set[A], remove: Set[A])
 
-class SetDiff[A,P](implicit
-  aDiff: Diff[A,P],
+class SetDiff[A](implicit
   cbf: CanBuildFrom[Nothing, A, Set[A]]
 ) extends Diff[Set[A],SetPatch[A]] {
   override def diff(oldValue: Set[A], newValue: Set[A]): Option[Patch] = {
