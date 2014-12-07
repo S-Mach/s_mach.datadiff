@@ -22,7 +22,7 @@ class OptionDiff[A,P](implicit
       case None =>
         optNewValue match {
           // If new value is set, need to convert it to a patch since no old value to diff against
-          case Some(newValue) => Some(Some(aDiff.mkPatch(newValue)))
+          case Some(newValue) => Some(Some(aDiff.valueToPatch(newValue)))
           case None => None
         }
     }
@@ -39,7 +39,7 @@ class OptionDiff[A,P](implicit
           // Attempt to convert inner A patch to a value
           // This can fail with an exception
           case None =>
-            Some(aDiff.mkValue(aPatch))
+            Some(aDiff.patchToValue(aPatch))
         }
       // Patch value to None
       case None => None
@@ -47,16 +47,16 @@ class OptionDiff[A,P](implicit
   }
 
 
-  override def mkPatch(value: Option[A]): Patch = value.map(aDiff.mkPatch)
+  override def valueToPatch(value: Option[A]): Patch = value.map(aDiff.valueToPatch)
 
-  override def canMkValue(patch: Patch) : Boolean = patch match {
+  override def canPatchToValue(patch: Patch) : Boolean = patch match {
     case None => true
-    case Some(aPatch) => aDiff.canMkValue(aPatch)
+    case Some(aPatch) => aDiff.canPatchToValue(aPatch)
   }
 
-  override def mkValue(patch: Patch): Option[A] = {
+  override def patchToValue(patch: Patch): Option[A] = {
     patch match {
-      case Some(aPatch) => Some(aDiff.mkValue(aPatch))
+      case Some(aPatch) => Some(aDiff.patchToValue(aPatch))
       case None => None
     }
   }

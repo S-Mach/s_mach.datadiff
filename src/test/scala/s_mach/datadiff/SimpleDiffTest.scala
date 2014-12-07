@@ -14,21 +14,21 @@ class SimpleDiffTest extends FlatSpec with Matchers {
     1 patch d should equal(2)
   }
 
-  "SimpleDiff.mkPatch" must "make a change from a value" in {
+  "SimpleDiff.valuetoPatch" must "make a change from a value" in {
     val aDiff = implicitly[Diff[Int,Int]]
 
-    aDiff.mkPatch(1) should equal(1)
+    aDiff.valueToPatch(1) should equal(1)
   }
 
-  "SimpleDiff.canMkValue" must "always be true" in {
+  "SimpleDiff.canPatchToValue" must "always be true" in {
     val aDiff = implicitly[Diff[Int,Int]]
 
-    aDiff.canMkValue(1) should equal(true)
+    aDiff.canPatchToValue(1) should equal(true)
   }
 
-  "SimpleDiff.mkValue" must "make a value from a change" in {
+  "SimpleDiff.patchToValue" must "make a value from a change" in {
     val aDiff = implicitly[Diff[Int,Int]]
 
-    aDiff.mkValue(1) should equal(1)
+    aDiff.patchToValue(1) should equal(1)
   }
 }

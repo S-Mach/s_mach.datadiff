@@ -1,6 +1,6 @@
 package s_mach
 
-import s_mach.datadiff.impl.{OptionDiff, SimpleDiff}
+import s_mach.datadiff.impl.{SetDiff, OptionDiff, SimpleDiff}
 
 package object datadiff {
   implicit object Diff_Byte extends SimpleDiff[Byte]
@@ -9,13 +9,20 @@ package object datadiff {
   implicit object Diff_Long extends SimpleDiff[Long]
   implicit object Diff_Float extends SimpleDiff[Float]
   implicit object Diff_Double extends SimpleDiff[Double]
+  implicit object Diff_BigInt extends SimpleDiff[BigInt]
+  implicit object Diff_BigDecimal extends SimpleDiff[BigDecimal]
   implicit object Diff_String extends SimpleDiff[String]
   implicit def mkDiff_Option[A,Patch](implicit
     aDiff:Diff[A,Patch]
   ) = new OptionDiff[A,Patch]
+  implicit def mkDiff_Set[A,Patch](implicit
+    aDiff:Diff[A,Patch]
+  ) = new SetDiff[A,Patch]
 
   implicit class SMach_Datadiff_PimpEverything[A](val self: A) extends AnyVal {
     def diff[Patch](other: A)(implicit aDiff:Diff[A,Patch]) : Option[Patch] =
+      aDiff.diff(self, other)
+    def -->?[Patch](other: A)(implicit aDiff:Diff[A,Patch]) : Option[Patch] =
       aDiff.diff(self, other)
     def patch[Patch](
       optPatch: Option[Patch]
@@ -26,5 +33,10 @@ package object datadiff {
         case Some(patch) => aDiff.applyPatch(self, patch)
         case None => self
       }
+    def |<--[Patch](
+      optPatch: Option[Patch]
+    )(implicit
+      aDiff:Diff[A,Patch]
+    ) : A = patch(optPatch)
   }
 }

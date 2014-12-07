@@ -14,9 +14,9 @@ class SimpleDiff[A] extends Diff[A,A] {
 
   override def applyPatch(value: A, change: A): A = change
 
-  override def mkPatch(value: A): A = value
+  override def valueToPatch(value: A): A = value
 
-  override def canMkValue(patch: A): Boolean = true
+  override def canPatchToValue(patch: A): Boolean = true
 
-  override def mkValue(patch: A): A = patch
+  override def patchToValue(patch: A): A = patch
 }

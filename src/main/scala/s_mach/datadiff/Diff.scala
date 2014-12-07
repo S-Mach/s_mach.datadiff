@@ -17,8 +17,8 @@ trait Diff[A,P] {
    * value.
    * @param oldValue the original value
    * @param newValue the new value
-   * @return If oldValue and newValue are different, Some(patch) otherwise None
-   *         if oldValue and newValue are the same
+   * @return If oldValue and newValue are different, Some(patch) otherwise,
+   *         if oldValue and newValue are the same, None
    */
   def diff(oldValue: A, newValue: A) : Option[Patch]
 
@@ -36,22 +36,23 @@ trait Diff[A,P] {
    * @param value the value to convert
    * @return a patch based on the value
    */
-  def mkPatch(value: A) : Patch
+  def valueToPatch(value: A) : Patch
 
   /**
    * Test if it is possible to convert a patch to a value
    * @param patch the patch to convert
    * @return TRUE if the patch can be converted to a value
    */
-  def canMkValue(patch: Patch) : Boolean = false
+  def canPatchToValue(patch: Patch) : Boolean = false
 
   /**
-   * Convert a patch to value
+   * Convert a patch to value. Note: this operation can fail. Before calling,
+   * test with canPatchToValue.
    * @param patch the patch to convert
    * @return the value based on the patch
    * @throws PatchNotCompleteException if the patch is not a complete value
    *         and cannot be converted to a value
    */
-  def mkValue(patch: Patch) : A = throw new PatchNotCompleteException
+  def patchToValue(patch: Patch) : A = throw new PatchNotCompleteException
 }
 
