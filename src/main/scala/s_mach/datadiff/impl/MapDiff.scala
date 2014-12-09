@@ -1,6 +1,6 @@
 package s_mach.datadiff.impl
 
-import s_mach.datadiff.{PatchNotCompleteException, Diff}
+import s_mach.datadiff.{PatchIncompleteValueException, Diff}
 
 case class MapPatch[A,B,P](
   add: Map[A,B],
@@ -63,7 +63,7 @@ class MapDiff[A,B,P](implicit
 
   override def patchToValue(patch: Patch): Map[A,B] = {
     if(canPatchToValue(patch) == false) {
-      throw new PatchNotCompleteException
+      throw new PatchIncompleteValueException
     }
     patch.add
   }

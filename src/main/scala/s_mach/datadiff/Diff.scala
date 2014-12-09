@@ -1,6 +1,10 @@
 package s_mach.datadiff
 
-class PatchNotCompleteException extends Exception
+/**
+ * Exception thrown when a failure to convert a patch to a value occurs because 
+ * the patch does not contain enough information to reconstruct a full value
+ */
+class PatchIncompleteValueException extends Exception
 
 /**
  * A type class for computing the differences between two instances of a type
@@ -33,6 +37,12 @@ trait Diff[A,P] {
   /**
    * Convert a value to a patch, such that if the patch was applied to any
    * other value, the result would be equal to the converted value
+   *
+   * Note1: if passed to canPatchToValue, the patch returned by this method will
+   * return true.
+   * Note2: if passed to patchToValue, the patch returned by this method is
+   * guaranteed not to throw an exception.
+   *
    * @param value the value to convert
    * @return a patch based on the value
    */
@@ -43,16 +53,19 @@ trait Diff[A,P] {
    * @param patch the patch to convert
    * @return TRUE if the patch can be converted to a value
    */
-  def canPatchToValue(patch: Patch) : Boolean = false
+  def canPatchToValue(patch: Patch) : Boolean
 
   /**
-   * Convert a patch to value. Note: this operation can fail. Before calling,
-   * test with canPatchToValue.
+   * Convert a patch to value.
+   *
+   * Note1: this operation can fail. Before calling, test with canPatchToValue.
+   * Note2: this operation is guaranteed to work on the output of valueToPatch.
+   *
    * @param patch the patch to convert
    * @return the value based on the patch
-   * @throws PatchNotCompleteException if the patch is not a complete value
+   * @throws PatchIncompleteValueException if the patch is not a complete value
    *         and cannot be converted to a value
    */
-  def patchToValue(patch: Patch) : A = throw new PatchNotCompleteException
+  def patchToValue(patch: Patch) : A
 }
 

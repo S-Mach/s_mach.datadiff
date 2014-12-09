@@ -4,7 +4,7 @@ import scala.collection.generic.CanBuildFrom
 import scala.language.higherKinds
 import scala.collection.JavaConverters._
 import difflib.{InsertDelta, Delta, DiffUtils, Patch}
-import s_mach.datadiff.{PatchNotCompleteException, Diff}
+import s_mach.datadiff.{PatchIncompleteValueException, Diff}
 
 case class SeqPatch[A](oomDelta: Vector[Delta[A]])
 
@@ -42,7 +42,7 @@ class SeqDiff[A,M[AA] <: Seq[AA]](implicit
   override def patchToValue(patch: Patch): M[A] = {
     val builder = cbf()
     if(canPatchToValue(patch) == false) {
-      throw new PatchNotCompleteException
+      throw new PatchIncompleteValueException
     }
 
     patch.oomDelta
