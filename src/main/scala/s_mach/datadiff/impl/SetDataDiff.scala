@@ -1,15 +1,13 @@
 package s_mach.datadiff.impl
 
-import s_mach.datadiff.Diff
+import s_mach.datadiff.{SetPatch, DataDiff}
 
 import scala.collection.generic.CanBuildFrom
 
-case class SetPatch[A](add: Set[A], remove: Set[A])
-
-class SetDiff[A](implicit
+class SetDataDiff[A](implicit
   cbf: CanBuildFrom[Nothing, A, Set[A]]
-) extends Diff[Set[A],SetPatch[A]] {
-  override def diff(oldValue: Set[A], newValue: Set[A]): Option[Patch] = {
+) extends DataDiff[Set[A],SetPatch[A]] {
+  override def calcDiff(oldValue: Set[A], newValue: Set[A]): Option[Patch] = {
     val remove = oldValue -- newValue
     if(remove.isEmpty && oldValue.size == newValue.size) {
       None
@@ -26,9 +24,4 @@ class SetDiff[A](implicit
     builder.result()
   }
 
-  override def valueToPatch(value: Set[A]): Patch = SetPatch(value, Set.empty)
-
-  override def canPatchToValue(patch: Patch): Boolean = true
-
-  override def patchToValue(patch: Patch): Set[A] = patch.add -- patch.remove
 }
