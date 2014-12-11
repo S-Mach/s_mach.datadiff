@@ -12,7 +12,7 @@ trait AllCollectionDataDiffImplicits {
   implicit def mkSetDataDiff[A] = new SetDataDiff[A]
   implicit def mkSeqDataDiff[A,M[AA] <: Seq[AA]](implicit
     cbf: CanBuildFrom[Nothing, A, M[A]]
-  ) = new SeqDataDiff[A,M]
+  ) = new SeqDataDiffImpl[A,M]
   implicit def mkMapDataDiff[A,B,Patch](implicit
     bDiff:DataDiff[B,Patch]
   ) = new MapDataDiff[A,B,Patch]

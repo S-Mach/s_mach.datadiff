@@ -6,7 +6,7 @@ import scala.collection.JavaConverters._
 import difflib._
 import s_mach.datadiff._
 
-class SeqDataDiff[A,M[AA] <: Seq[AA]](implicit
+class SeqDataDiffImpl[A,M[AA] <: Seq[AA]](implicit
   cbf:CanBuildFrom[Nothing, A, M[A]]
 ) extends DataDiff[M[A],SeqPatch[A]] {
   
