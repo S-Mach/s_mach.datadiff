@@ -1,10 +1,12 @@
-package s_mach.datadiff.impl
+package s_mach.datadiff
 
-import scala.language.higherKinds
-import s_mach.datadiff.DataDiff
+import s_mach.datadiff.impl.{MapDataDiff, OptionDataDiff, SeqDataDiffImpl, SetDataDiff}
 
 import scala.collection.generic.CanBuildFrom
 
+/**
+ * Created by lgatlin on 12/16/14.
+ */
 trait AllCollectionDataDiffImplicits {
   implicit def mkOptionDataDiff[A,Patch](implicit
     aDiff:DataDiff[A,Patch]

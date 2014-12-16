@@ -1,4 +1,4 @@
-package s_mach.datadiff.impl
+package s_mach.datadiff
 
 class AllDataDiffImplicits extends
   AllTupleDataDiffImplicits with

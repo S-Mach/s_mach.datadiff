@@ -1,5 +1,10 @@
-package s_mach.datadiff.impl
+package s_mach.datadiff
 
+import s_mach.datadiff.impl.SimpleDataDiff
+
+/**
+ * Created by lgatlin on 12/16/14.
+ */
 trait AllBuiltInDataDiffImplicits {
   implicit object DataDiff_Byte extends SimpleDataDiff[Byte]
   implicit object DataDiff_Short extends SimpleDataDiff[Short]

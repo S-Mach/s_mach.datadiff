@@ -1,8 +1,6 @@
-package s_mach.datadiff.impl
+package s_mach.datadiff
 
-/* WARNING: Generated code. To modify see s_mach.datadiff.impl.AllTupleDataDiffImplicits */
-
-import s_mach.datadiff.DataDiff
+import s_mach.datadiff.impl._
 
 trait AllTupleDataDiffImplicits {
 
@@ -342,4 +340,3 @@ trait AllTupleDataDiffImplicits {
   ) = new Tuple22DataDiff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU,PV]
 
 }
-

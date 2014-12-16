@@ -37,7 +37,7 @@ s"""
     val contents =
 s"""package s_mach.datadiff.impl
 
-/* WARNING: Generated code. To modify see s_mach.datadiff.impl.AllTupleDataDiffImplicits */
+/* WARNING: Generated code. To modify see s_mach.datadiff.AllTupleDataDiffImplicits */
 
 import s_mach.datadiff.DataDiff
 
