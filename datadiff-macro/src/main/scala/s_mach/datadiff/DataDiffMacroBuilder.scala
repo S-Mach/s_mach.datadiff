@@ -18,7 +18,7 @@
 */
 package s_mach.datadiff
 
-import s_mach.datadiff.impl.DataDiffMacroBuilderImpl
+import impl.DataDiffMacroBuilderImpl
 
 import scala.reflect.macros.blackbox
 
