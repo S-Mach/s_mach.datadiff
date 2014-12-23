@@ -1,14 +1,18 @@
 sbtVersion := "0.13.5"
 
+val nexus = "https://oss.sonatype.org/"
+val nexusSnapshots = "snapshots" at nexus + "content/repositories/snapshots"
+val nexusReleases = "releases"  at nexus + "service/local/staging/deploy/maven2"
+
+// TODO: figure out how to move this into publish.sbt
 val publishSettings = Seq(
   publishMavenStyle := true,
   pomIncludeRepository := { _ => false },
   publishTo := {
-    val nexus = "https://oss.sonatype.org/"
     if (isSnapshot.value)
-      Some("snapshots" at nexus + "content/repositories/snapshots")
+      Some(nexusSnapshots)
     else
-      Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+      Some(nexusReleases)
   },
   pomExtra :=
     <url>https://github.com/S-Mach/s_mach.datadiff</url>
@@ -43,7 +47,9 @@ val defaultSettings = Defaults.coreDefaultSettings ++ publishSettings ++ Seq(
     "-feature",
     "-unchecked",
     "-deprecation"
-  )
+  ),
+  // TODO: remove this once s_mach.codetools is off snapshot version
+  resolvers += nexusSnapshots
 )
 
 val test = Seq(
