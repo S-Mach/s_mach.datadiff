@@ -1,4 +1,4 @@
-= s_mach.datadiff: data differencing library
+= s_mach.datadiff: data diffing library
 Lance Gatlin <lance.gatlin@gmail.com>
 v2,23-Dec-2014
 :blogpost-status: unpublished
