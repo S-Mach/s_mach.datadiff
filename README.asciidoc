@@ -6,17 +6,16 @@ v2,23-Dec-2014
 
 image:https://travis-ci.org/S-Mach/s_mach.datadiff.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.datadiff"]  image:https://coveralls.io/repos/S-Mach/s_mach.datadiff/badge.png[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.datadiff"] https://github.com/S-Mach/s_mach.datadiff[Code] http://s-mach.github.io/s_mach.datadiff/#s_mach.datadiff.package[Scaladoc]
 
-+s_mach.datadiff+ is an open-source Scala library that provides the +DataDiff+
-type-class which can compute the difference between data types, +Set+, +Seq+,
-+Map+, case classes, tuples and any other type that can be represented as a
-+struct type+. The difference between any two instances is stored as a
-+patch type+ (which can be user-defined). Using the +DataDiff+ type-class the
-can be applied to another instance to propagate the  computed changes. All
-+DataDiff+ implementations are 100% strongly-typed and use absolutely no runtime
-reflection. The +mkDataDiff+ method is provided which can automatically create
-an implementation of +DataDiff+ for any case class or other class that can be
-represented as a +struct type+.
-
++s_mach.datadiff+ is an open-source data differencing engine for Scala. 
+Implementations of the +DataDiff+ type-class are provided which can compute the 
+difference between data types, +Set+, +Seq+, +Map+, case classes, tuples and any
+other type that can be represented as a +struct type+. The difference between 
+any two instances is stored as a +patch type+, which can be user-defined. 
+Patches can also be applied later to another instance to propagate computed 
+changes. All provided +DataDiff+ implementations are 100% strongly-typed and use
+ absolutely no runtime reflection. Also, the macro-based +mkDataDiff+ method is 
+ provided which can automatically create a +DataDiff+ implementation for any 
+ case class or other type that can be represented as a +struct type+.
 == Include in SBT
 1. Add to +build.sbt+
 +
