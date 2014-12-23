@@ -50,8 +50,16 @@ scala> :paste
 
 import s_mach.datadiff._
 
-case class Person(name: String, age: Int, friends: Set[Person] = Set.empty)
-case class PersonPatch(name: Option[String], age: Option[Int], friends: Option[SetPatch[Person]])
+case class Person(
+  name: String,
+  age: Int,
+  friends: Set[Person] = Set.empty
+)
+case class PersonPatch(
+  name: Option[String],
+  age: Option[Int],
+  friends: Option[SetPatch[Person]]
+)
 object Person {
   implicit val dataDiff_Person = mkDataDiff[Person,PersonPatch]
 }
