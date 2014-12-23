@@ -6,7 +6,7 @@ v2,23-Dec-2014
 
 *UNDER CONSTRUCTION*
 
-image:https://travis-ci.org/S-Mach/s_mach.datadiff.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.datadiff"]  image:https://coveralls.io/repos/S-Mach/s_mach.datadiff/badge.png[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.datadiff"] https://github.com/S-Mach/s_mach.datadiff[Code] http://s-mach.github.io/s_mach.datadiff/#s_mach.datadiff.package[Scaladoc]
+image:https://travis-ci.org/S-Mach/s_mach.datadiff.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.datadiff"]  image:https://coveralls.io/repos/S-Mach/s_mach.datadiff/badge.png?branch=master[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.datadiff"] https://github.com/S-Mach/s_mach.datadiff[Code] http://s-mach.github.io/s_mach.datadiff/#s_mach.datadiff.package[Scaladoc]
 
 +s_mach.datadiff+ is an open-source data difference engine for Scala.
 Implementations of the +DataDiff+ type-class are provided which can compute the
