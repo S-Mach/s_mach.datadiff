@@ -16,6 +16,7 @@ changes. All provided +DataDiff+ implementations are 100% strongly-typed and use
  absolutely no runtime reflection. Also, the macro-based +mkDataDiff+ method is 
  provided which can automatically create a +DataDiff+ implementation for any 
  case class or other type that can be represented as a +struct type+.
+ 
 == Include in SBT
 1. Add to +build.sbt+
 +
