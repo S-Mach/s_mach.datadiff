@@ -21,8 +21,8 @@ package s_mach.datadiff
 import org.scalatest.{Matchers, FlatSpec}
 import s_mach.datadiff.OptionPatch.{SetNone, SetValue, ApplyInnerPatch}
 import s_mach.datadiff.impl.AppliedInnerPatchToNoneException
-
 import scala.util.{Failure, Try}
+import testdata._
 
 class OptionDataDiffTest extends FlatSpec with Matchers {
 
@@ -39,9 +39,9 @@ class OptionDataDiffTest extends FlatSpec with Matchers {
     }
 
     {
-      val some1 : Option[TestData] = Some(TestData("1","1"))
-      val some2 : Option[TestData] = Some(TestData("1","2"))
-      some1 calcDiff some2 should equal(Some(ApplyInnerPatch(TestDataPatch(None,Some("2")))))
+      val some1 : Option[TestData] = Some(TestData("1",1))
+      val some2 : Option[TestData] = Some(TestData("1",2))
+      some1 calcDiff some2 should equal(Some(ApplyInnerPatch(TestDataPatch(None,Some(2)))))
       Option.empty[TestData] calcDiff some2 should equal(Some(SetValue(some2.get)))
 
       some1 calcDiff Option.empty[TestData] should equal(Some(SetNone))
@@ -72,8 +72,8 @@ class OptionDataDiffTest extends FlatSpec with Matchers {
       }
     }
     {
-      val some1 : Option[TestData] = Some(TestData("1","1"))
-      val some2 : Option[TestData] = Some(TestData("1","2"))
+      val some1 : Option[TestData] = Some(TestData("1",1))
+      val some2 : Option[TestData] = Some(TestData("1",2))
 
       {
         val patch = some1 calcDiff some2

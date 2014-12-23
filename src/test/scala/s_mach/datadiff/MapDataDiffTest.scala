@@ -19,6 +19,7 @@
 package s_mach.datadiff
 
 import org.scalatest.{Matchers, FlatSpec}
+import testdata._
 
 class MapDataDiffTest extends FlatSpec with Matchers {
 
@@ -26,14 +27,14 @@ class MapDataDiffTest extends FlatSpec with Matchers {
   val map2 = Map(2 -> "b",3 -> "cc", 4 -> "e")
 
   val map3 = Map(
-    1 -> TestData("a","b"),
-    2 -> TestData("b","c"),
-    3 -> TestData("c","d")
+    1 -> TestData("a",2),
+    2 -> TestData("b",3),
+    3 -> TestData("c",4)
   )
   val map4 = Map(
-    2 -> TestData("b","c"),
-    3 -> TestData("cc","d"),
-    4 -> TestData("e","f")
+    2 -> TestData("b",3),
+    3 -> TestData("cc",4),
+    4 -> TestData("e",6)
   )
 
   "MapDiff.diff" must "detect differences between the old and new value" in {
@@ -48,7 +49,7 @@ class MapDataDiffTest extends FlatSpec with Matchers {
 
     {
       map3 -->? map4 should equal(Some(MapPatch(
-        add = Map(4 -> TestData("e","f")),
+        add = Map(4 -> TestData("e",6)),
         remove = Set(1),
         change = Map(3 -> TestDataPatch(Some("cc"), None))
       )))

@@ -33,18 +33,28 @@ s"""
     tuple calcDiff tuple should equal(None)
   }
 
-  "Simple${n}Diff.patch" must "apply changes to an old value to achieve new value" in {
-    val tuple = (${(0 until n).map(i => "Random.nextInt()").mkString(",")})
-    val modTuple = tuple.copy(_2 = Random.nextInt())
-    val d = tuple calcDiff modTuple
-    tuple applyPatch d should equal(modTuple)
+  "Tuple${n}Diff.patch" must "apply changes to an old value to achieve new value" in {
+    {
+      val tuple = (${(0 until n).map(i => "Random.nextInt()").mkString(",")})
+      val modTuple = tuple.copy(_1 = Random.nextInt())
+      val d = tuple calcDiff modTuple
+      tuple applyPatch d should equal(modTuple)
+    }
+
+    {
+      val tuple = (${(0 until n).map(i => "Random.nextInt()").mkString(",")})
+      val modTuple = tuple.copy(${(2 to n).map(i => s"_$i = tuple._$i + 1").mkString(",")})
+      val d = tuple calcDiff modTuple
+      tuple applyPatch d should equal(modTuple)
+    }
   }
 """
   }
   
   def genToFile(path: String) : Unit = {
     val contents =
-s"""package s_mach.datadiff
+s"""$header
+package s_mach.datadiff
 
 /* WARNING: Generated code. To modify see s_mach.datadiff.TupleDataDiffTestCodeGen */
 

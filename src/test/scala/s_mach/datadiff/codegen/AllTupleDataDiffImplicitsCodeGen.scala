@@ -24,22 +24,31 @@ object AllTupleDataDiffImplicitsCodeGen {
     val ucs = ('A' to 'Z').map(_.toString).take(n)
     val allUcs = ucs.mkString(",")
     val allLcs = lcs.mkString(",")
+    val allPatchUcs = ucs.map(uc => s"P$uc").mkString(",")
+    val aType = s"($allUcs)"
+    val pType = s"(${ucs.map(uc => s"Option[P$uc]").mkString(",")})"
+    val typeParms =
+      (
+        ucs ++
+        ucs.map(uc => s"P$uc")
+      ).mkString(",")
 s"""
-  implicit def mkTuple${n}Diff[$allUcs,${ucs.map(uc => s"P$uc").mkString(",")}](implicit
+  implicit def mkTuple${n}Diff[$typeParms](implicit
     ${(0 until n).map { i =>
       s"${lcs(i)}Diff: DataDiff[${ucs(i)},P${ucs(i)}]"
     }.mkString(",\n    ")}
-  ) = new Tuple${n}DataDiff[$allUcs,${ucs.map(uc => s"P$uc").mkString(",")}]
+  ) : DataDiff[$aType,$pType] =
+    mkDataDiff[$aType,$pType]
 """
   }
   
   def genToFile(path: String) : Unit = {
+
     val contents =
-s"""package s_mach.datadiff.impl
+s"""$header
+package s_mach.datadiff
 
 /* WARNING: Generated code. To modify see s_mach.datadiff.AllTupleDataDiffImplicits */
-
-import s_mach.datadiff.DataDiff
 
 trait AllTupleDataDiffImplicits {
 ${(2 to 22).map(i => gen(i)).mkString("\n")}

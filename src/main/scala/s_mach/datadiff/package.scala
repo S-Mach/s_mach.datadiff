@@ -65,4 +65,7 @@ package object datadiff extends AllDataDiffImplicits {
       aDiff:DataDiff[A,Patch]
     ) : A = applyPatch(optPatch)
   }
+
+  import scala.language.experimental.macros
+  def mkDataDiff[A,P] : DataDiff[A,P] = macro mkDataDiffImpl[A,P]
 }
