@@ -1,3 +1,5 @@
+sbtVersion := "0.13.5"
+
 val publishSettings = Seq(
   publishMavenStyle := true,
   pomIncludeRepository := { _ => false },
