@@ -92,10 +92,13 @@ patch: Option[PersonPatch] = None
 scala> val p3 = p1 applyPatch patch
 p3: Person = Person(Lance,37,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set()), Person(Samantha,1,Set())))
 
+scala> val test1 = p3 == p2
+test1: Boolean = true
+
 scala> val p4 = p1 applyPatch patch2
 p4: Person = Person(Lance,36,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set())))
 
-scala> val test1 = p4 == p1
+scala> val test2 = p4 == p1
 test1: Boolean = true
 
 ----
