@@ -39,15 +39,55 @@ libraries. However, no guarantees are made as to the stability or interface of
 code in the +s_mach.datadiff.impl+ package between versions.
 
 
-== Imports for Examples
-All code examples assume the following imports:
-[source,scala,numbered]
+== Example: Compute the difference between case classes and apply patches
 ----
-import scala.datadiff._
+Welcome to Scala version 2.11.1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.7.0_72).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+import s_mach.datadiff._
+
+case class Person(name: String, age: Int, friends: Set[Person] = Set.empty)
+case class PersonPatch(name: Option[String], age: Option[Int], friends: Option[SetPatch[Person]])
+object Person {
+  implicit val dataDiff_Person = mkDataDiff[Person,PersonPatch]
+}
+
+val friend1 = Person("Hal",46)
+val friend2 = Person("Wintermute",30)
+val friend3 = Person("Samantha",1)
+
+val p1 = Person("Lance",36,Set(friend1,friend2))
+val p2 = Person("Lance",37,Set(friend1,friend2,friend3))
+
+// Exiting paste mode, now interpreting.
+
+import s_mach.datadiff._
+defined class Person
+defined class PersonPatch
+defined object Person
+friend1: Person = Person(Hal,46,Set())
+friend2: Person = Person(Wintermute,30,Set())
+friend3: Person = Person(Samantha,1,Set())
+p1: Person = Person(Lance,36,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set())))
+p2: Person = Person(Lance,37,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set()), Person(Samantha,1,Set())))
+
+scala> val patch = p1 calcDiff p2
+patch: Option[PersonPatch] = Some(PersonPatch(None,Some(37),Some(SetPatch(Set(Person(Samantha,1,Set())),Set()))))
+
+scala> val patch2 = p1 calcDiff p1
+patch: Option[PersonPatch] = None
+
+scala> val p3 = p1 applyPatch patch
+p3: Person = Person(Lance,37,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set()), Person(Samantha,1,Set())))
+
+scala> val p4 = p1 applyPatch patch2
+p4: Person = Person(Lance,36,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set())))
+
+scala> val test1 = p4 == p1
+test1: Boolean = true
+
 ----
-
-== Example: Compute the difference between case classes
-TODO
-
-== Example: Apply a patch
-TODO
