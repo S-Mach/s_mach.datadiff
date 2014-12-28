@@ -23,24 +23,49 @@ import s_mach.datadiff._
 case class TestDataPatch(value1: Option[String], value2: Option[Int])
 case class TestData(value1: String, value2: Int)
 object TestData {
-  implicit val dataDiff = mkDataDiff[TestData,TestDataPatch]
+  implicit val dataDiff_TestData = DataDiff.forProductType[TestData,TestDataPatch]
 }
-//case class TestData2(value1: Int, value2: String, value3: Option[Double],value4: TestData)
-//object TestData2 {
-//  implicit val Printable_TestData = mkPrintable[TestData2]
-//}
-//
-//case class TestData3(value1: (Int,String,Double))
-//object TestData3 {
-//  implicit val Printable_TestData = mkPrintable[TestData3]
-//}
-//
-//case class TestData4(value1: Int, value2: TestData2, value3: List[Double], value4: TestData3)
-//object TestData4 {
-//  implicit val Printable_TestData = mkPrintable[TestData4]
-//}
-//
-//sealed trait TestEnum
+
+case class TestData2Patch(
+  value1: Option[Int],
+  value2: Option[String],
+  value3: Option[OptionPatch[Double,Double]],
+  value4: Option[TestDataPatch]
+)
+case class TestData2(
+  value1: Int,
+  value2: String,
+  value3: Option[Double],
+  value4: TestData
+)
+object TestData2 {
+  implicit val dataDiff_TestData2 = DataDiff.forProductType[TestData2,TestData2Patch]
+}
+
+case class TestData3Patch(value1: Option[(Option[Int],Option[String],Option[Double])])
+case class TestData3(value1: (Int,String,Double))
+object TestData3 {
+  implicit val dataDiff_TestData3 = DataDiff.forProductType[TestData3,TestData3Patch]
+}
+
+case class TestData4Patch(
+  value1: Option[Int],
+  value2: Option[TestData2Patch],
+  value3: Option[SeqPatch[Double]],
+  value4: Option[TestData3Patch]
+)
+case class TestData4(
+  value1: Int,
+  value2: TestData2,
+  value3: List[Double],
+  value4: TestData3
+)
+object TestData4 {
+  implicit val dataDiff_TestData4 = DataDiff.forProductType[TestData4,TestData4Patch]
+}
+
+//case class TestEnumPatch(value1: Option[String])
+//sealed trait TestEnum extends Product
 //case object TestEnum1 extends TestEnum
 //case object TestEnum2 extends TestEnum
 //case object TestEnum3 extends TestEnum
@@ -48,13 +73,13 @@ object TestData {
 //  val values = List(TestEnum1,TestEnum2,TestEnum3)
 //  def apply(value1: String) : TestEnum = values.find(_.toString == value1).get
 //  def unapply(e:TestEnum) : Option[String] = Some(e.toString)
-//  implicit val Printable_TestEnum = mkPrintable[TestEnum]
+//  implicit val dataDiff_TestEnum = DataDiff.forProductType[TestEnum,TestEnumPatch]
 //}
 //
 //sealed trait TestBaseADT
 //case class TestADT1(value1: String) extends TestBaseADT
 //object TestADT1 {
-//  implicit val Printable_TestADT1 = mkPrintable[TestADT1]
+//  implicit val dataDiff_TestADT1 = DataDiff.forProductType[TestADT1]
 //}
 //case class TestADT2(value1: Double) extends TestBaseADT
 //object TestBaseADT {
@@ -70,19 +95,21 @@ object TestData {
 //      case TestADT2(value2) => Some(("TestADT2",None,Some(value2)))
 //    }
 //  }
-//  implicit val Printable_TestBaseADT = mkPrintable[TestBaseADT]
+//  implicit val dataDiff_TestBaseADT = DataDiff.forProductType[TestBaseADT]
 //}
 //
 //case class TestData5(value1: TestBaseADT, value2: TestEnum)
 //
 //object TestData5 {
-//  implicit val Printable_TestData5 =
-//    mkPrintable[TestData5]
+//  implicit val dataDiff_TestData5 =
+//    DataDiff.forProductType[TestData5]
 //}
 //
 //case class TestData6[A <: TestBaseADT](value1: A)
 //
 //object TestData6 {
-//  implicit def mkPrintable_Testdata6[A <: TestBaseADT](implicit aPrintable:Printable[A]) : Printable[TestData6[A]] =
-//    mkPrintable[TestData6[A]]
+//  implicit def mkDataData_TestData6[A <: TestBaseADT,P,PA](implicit
+//    aDataDiff:DataDiff[A,PA]
+//  ) : DataDiff[TestData6[A],P] =
+//      DataDiff.forProductType[TestData6[A],P]
 //}

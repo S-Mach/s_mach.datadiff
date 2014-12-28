@@ -11,10 +11,10 @@ image:https://travis-ci.org/S-Mach/s_mach.datadiff.svg[Build Status, link="https
 +s_mach.datadiff+ is an open-source data difference engine for Scala.
 Implementations of the +DataDiff+ type-class are provided which can compute the
 difference between all data types, +Option+, +Set+, +Seq+, +Map+ and all tuple
-classes. A +DataDiff+ implementation for any case case class (or other type that
-can be represented as a +struct type+) can be generated at compile-time by the
-+mkDataDiff+ macro method. The difference between any two instances is stored as
-a +patch type+, which can be user-defined per type. Patches can be applied to
+classes. A +DataDiff+ implementation for any case class (or other type that has
+matching apply/unapply) can be generated at compile-time by the +mkDataDiff+
+macro method. The difference between any two instances is stored as a
++patch type+, which can be user-defined per type. Patches can be applied to
 instances of the original type to propagate computed changes. All provided
 +DataDiff+ implementations are 100% strongly-typed and use absolutely no runtime
 reflection.

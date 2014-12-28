@@ -18,9 +18,10 @@
 */
 package s_mach
 
-import s_mach.datadiff.impl._
-
-package object datadiff extends AllDataDiffImplicits {
+package object datadiff extends
+  TupleDataDiffImplicits with
+  CollectionDataDiffImplicits with
+  DataTypeDataDiffImplicits {
   trait InferDataDiff[A] {
     def infer[P](implicit ev:DataDiff[A,P]) : DataDiff[A,P]
   }
@@ -65,7 +66,4 @@ package object datadiff extends AllDataDiffImplicits {
       aDiff:DataDiff[A,Patch]
     ) : A = applyPatch(optPatch)
   }
-
-  import scala.language.experimental.macros
-  def mkDataDiff[A,P] : DataDiff[A,P] = macro mkDataDiffImpl[A,P]
 }

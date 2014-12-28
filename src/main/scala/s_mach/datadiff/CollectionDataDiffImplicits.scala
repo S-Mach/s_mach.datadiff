@@ -18,17 +18,19 @@
 */
 package s_mach.datadiff
 
-import impl.DataDiffMacroBuilderImpl
+import scala.language.higherKinds
+import scala.collection.generic.CanBuildFrom
+import s_mach.datadiff.impl.{MapDataDiff, OptionDataDiff, SeqDataDiffImpl, SetDataDiff}
 
-import scala.reflect.macros.blackbox
-
-trait DataDiffMacroBuilder {
-  val c:blackbox.Context
-  def build[A: c.WeakTypeTag,P:c.WeakTypeTag]() : c.Expr[DataDiff[A,P]]
+trait CollectionDataDiffImplicits {
+  implicit def mkOptionDataDiff[A,Patch](implicit
+    aDiff:DataDiff[A,Patch]
+  ) = new OptionDataDiff[A,Patch]
+  implicit def mkSetDataDiff[A] = new SetDataDiff[A]
+  implicit def mkSeqDataDiff[A,M[AA] <: Seq[AA]](implicit
+    cbf: CanBuildFrom[Nothing, A, M[A]]
+  ) = new SeqDataDiffImpl[A,M]
+  implicit def mkMapDataDiff[A,B,Patch](implicit
+    bDiff:DataDiff[B,Patch]
+  ) = new MapDataDiff[A,B,Patch]
 }
-
-object DataDiffMacroBuilder {
-  def apply(c:blackbox.Context) : DataDiffMacroBuilder =
-    new DataDiffMacroBuilderImpl(c)
-}
-

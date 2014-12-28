@@ -60,10 +60,9 @@ lazy val dataDiff = Project(
   id = "datadiff",
   base = file("."),
   aggregate = Seq(
-    dataDiffCore,
-    dataDiffMacro
+    dataDiffCore
   ),
-  dependencies = Seq("datadiff-macro")
+  dependencies = Seq("datadiff-core")
 )
   .settings(defaultSettings: _*)
   .settings(libraryDependencies ++= Seq(
@@ -75,14 +74,6 @@ lazy val dataDiffCore = Project(
   base = file("datadiff-core")
 )
   .settings(defaultSettings: _*)
-
-lazy val dataDiffMacro = Project(
-  id = "datadiff-macro",
-  base = file("datadiff-macro"),
-  dependencies = Seq("datadiff-core")
-)
-  .settings(defaultSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "net.s_mach" %% "codetools" % "0.1-SNAPSHOT"
+    "net.s_mach" %% "codetools" % "1.0.1"
   ))
-

@@ -18,7 +18,17 @@
 */
 package s_mach.datadiff
 
-class AllDataDiffImplicits extends
-  AllTupleDataDiffImplicits with
-  AllCollectionDataDiffImplicits with
-  AllBuiltInDataDiffImplicits
+import s_mach.datadiff.impl.DataDiffMacroBuilderImpl
+
+import scala.reflect.macros.blackbox
+
+trait DataDiffMacroBuilder {
+  val c:blackbox.Context
+  def build[A: c.WeakTypeTag,P:c.WeakTypeTag]() : c.Expr[DataDiff[A,P]]
+}
+
+object DataDiffMacroBuilder {
+  def apply(c:blackbox.Context) : DataDiffMacroBuilder =
+    new DataDiffMacroBuilderImpl(c)
+}
+

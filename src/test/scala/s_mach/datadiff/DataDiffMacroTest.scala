@@ -44,7 +44,7 @@ class DataDiffMacroTest extends FlatSpec with Matchers {
     implicit def mkTuple2Diff[A,B,PA,PB](implicit
       aDiff: DataDiff[A,PA],
       bDiff: DataDiff[B,PB]
-    ) = mkDataDiff[(A,B),(Option[PA],Option[PB])]
+    ) = DataDiff.forProductType[(A,B),(Option[PA],Option[PB])]
 
     val d1 = ("1",2)
     val d2 = ("1",3)

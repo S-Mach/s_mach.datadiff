@@ -18,6 +18,9 @@
 */
 package s_mach.datadiff
 
+import scala.language.experimental.macros
+import scala.reflect.macros.blackbox
+
 /**
  * A type class for computing the differences between two instances of a type
  * @tparam A the type to compute differences on
@@ -44,6 +47,19 @@ trait DataDiff[A,P] {
    * @return the new value with the patch applied
    */
   def applyPatch(value: A, patch: P) : A
+
+}
+
+object DataDiff {
+  def forProductType[A <: Product, P] : DataDiff[A,P] =
+    macro macroForProductType[A,P]
+
+  def macroForProductType[A:c.WeakTypeTag,P:c.WeakTypeTag](
+    c: blackbox.Context
+  ) : c.Expr[DataDiff[A,P]] = {
+    val builder = DataDiffMacroBuilder(c)
+    builder.build[A,P]().asInstanceOf[c.Expr[DataDiff[A,P]]]
+  }
 
 }
 

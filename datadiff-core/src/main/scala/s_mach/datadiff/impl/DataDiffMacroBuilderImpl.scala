@@ -18,30 +18,28 @@
 */
 package s_mach.datadiff.impl
 
-import s_mach.codetools.ReflectToolbox
-import s_mach.datadiff.{DataDiff, DataDiffMacroBuilder}
 
-import scala.language.experimental.macros
 import scala.reflect.macros.blackbox
-import s_mach.datadiff._
+import s_mach.datadiff.{DataDiffMacroBuilder, DataDiff}
+import s_mach.codetools.BlackboxHelper
 
 class DataDiffMacroBuilderImpl(val c: blackbox.Context) extends
-DataDiffMacroBuilder with
-ReflectToolbox {
+  DataDiffMacroBuilder with
+  BlackboxHelper {
   import c.universe._
 
   def build[A: c.WeakTypeTag,P: c.WeakTypeTag]() : c.Expr[DataDiff[A,P]] = {
     val aType = c.weakTypeOf[A]
     val pType = c.weakTypeOf[P]
 
-    val structType = calcStructType(aType)
+    val productType = abortIfFailure(ProductType(aType))
 
     val lcs = ('a' to 'z').map(_.toString)
 
-    val oomPatch = structType.oomMember
+    val oomPatch = productType.oomField
       .zip(lcs)
-      .map { case ((optSymbol,_type),lc) =>
-        val field = TermName(optSymbol.get.name.toString)
+      .map { case (ProductType.Field(fieldName,_type),lc) =>
+        val field = TermName(fieldName)
         (TermName(lc),TermName(s"${lc}Patch"),field)
       }
 
@@ -81,7 +79,7 @@ new DataDiff[$aType,$pType] {
 }
       """
     }
-//    println(result)
+    println(result)
     result
   }
 

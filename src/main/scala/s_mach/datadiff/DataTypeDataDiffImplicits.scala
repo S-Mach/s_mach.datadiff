@@ -20,7 +20,7 @@ package s_mach.datadiff
 
 import s_mach.datadiff.impl.SimpleDataDiff
 
-trait AllBuiltInDataDiffImplicits {
+trait DataTypeDataDiffImplicits {
   implicit object DataDiff_Boolean extends SimpleDataDiff[Boolean]
   implicit object DataDiff_Byte extends SimpleDataDiff[Byte]
   implicit object DataDiff_Short extends SimpleDataDiff[Short]
