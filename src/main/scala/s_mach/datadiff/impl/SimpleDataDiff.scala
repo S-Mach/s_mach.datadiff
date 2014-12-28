@@ -20,7 +20,9 @@ package s_mach.datadiff.impl
 
 import s_mach.datadiff.DataDiff
 
-class SimpleDataDiff[A] extends DataDiff[A,A] {
+class SimpleDataDiff[A] extends DataDiff[A,Option[A]] {
+
+  override val noChange = None
 
   override def calcDiff(oldValue: A, newValue: A) = {
     if(oldValue != newValue) {
@@ -30,6 +32,9 @@ class SimpleDataDiff[A] extends DataDiff[A,A] {
     }
   }
 
-  override def applyPatch(value: A, change: A): A = change
+  override def applyPatch(value: A, patch: Option[A]): A = patch match {
+    case Some(newValue) => newValue
+    case None => value
+  }
 
 }

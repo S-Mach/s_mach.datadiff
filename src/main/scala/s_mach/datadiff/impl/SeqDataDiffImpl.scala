@@ -27,7 +27,9 @@ import s_mach.datadiff._
 class SeqDataDiffImpl[A,M[AA] <: Seq[AA]](implicit
   cbf:CanBuildFrom[Nothing, A, M[A]]
 ) extends DataDiff[M[A],SeqPatch[A]] {
-  
+
+  val noChange = SeqPatch.noChange
+
   def chunkToSeqChunk(chunk: Chunk[A]) : SeqChunk[A] = {
     SeqChunk(chunk.getPosition, chunk.getLines.asScala.toVector)
   }
@@ -54,19 +56,19 @@ class SeqDataDiffImpl[A,M[AA] <: Seq[AA]](implicit
     }
   }
   
-  override def calcDiff(oldValue: M[A], newValue: M[A]): Option[Patch] = {
+  override def calcDiff(oldValue: M[A], newValue: M[A]): Patch = {
     val jPatch = DiffUtils.diff(oldValue.asJava, newValue.asJava)
     if(jPatch.getDeltas.isEmpty) {
-      None
+      noChange
     } else {
-      Some(SeqPatch(jPatch.getDeltas.asScala.iterator.map(deltaToSeqDelta).toVector))
+      SeqPatch(jPatch.getDeltas.asScala.iterator.map(deltaToSeqDelta).toVector)
     }
   }
 
   override def applyPatch(value: M[A], patch: Patch): M[A] = {
     val builder = cbf()
     val jPatch = new difflib.Patch[A]
-    patch.oomSeqDelta.foreach(seqDelta => jPatch.addDelta(seqDeltaToDelta(seqDelta)))
+    patch.zomSeqDelta.foreach(seqDelta => jPatch.addDelta(seqDeltaToDelta(seqDelta)))
     jPatch.applyTo(value.asJava).iterator.asScala.foreach(builder.+=)
     builder.result()
   }

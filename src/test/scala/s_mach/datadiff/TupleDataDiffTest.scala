@@ -26,10 +26,11 @@ import org.scalatest.{Matchers, FlatSpec}
 class TupleDataDiffTest extends FlatSpec with Matchers {
 
   "Tuple2Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2))))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int)].noChange)
   }
 
   "Tuple2Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -50,10 +51,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple3Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int)].noChange)
   }
 
   "Tuple3Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -74,10 +76,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple4Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int)].noChange)
   }
 
   "Tuple4Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -98,10 +101,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple5Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple5Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -122,10 +126,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple6Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple6Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -146,10 +151,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple7Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple7Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -170,10 +176,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple8Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple8Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -194,10 +201,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple9Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple9Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -218,10 +226,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple10Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple10Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -242,10 +251,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple11Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple11Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -266,10 +276,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple12Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple12Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -290,10 +301,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple13Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple13Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -314,10 +326,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple14Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple14Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -338,10 +351,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple15Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple15Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -362,10 +376,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple16Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple16Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -386,10 +401,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple17Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple17Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -410,10 +426,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple18Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple18Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -434,10 +451,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple19Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple19Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -458,10 +476,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple20Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple20Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -482,10 +501,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple21Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple21Diff.patch" must "apply changes to an old value to achieve new value" in {
@@ -506,10 +526,11 @@ class TupleDataDiffTest extends FlatSpec with Matchers {
 
 
   "Tuple22Diff.diff" must "detect differences between the old and new value" in {
+    val noChange = patchFor[Int].noChange
     val tuple = (Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt(),Random.nextInt())
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2),None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None)))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange,noChange))
+    tuple calcDiff tuple should equal(patchFor[(Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int,Int)].noChange)
   }
 
   "Tuple22Diff.patch" must "apply changes to an old value to achieve new value" in {

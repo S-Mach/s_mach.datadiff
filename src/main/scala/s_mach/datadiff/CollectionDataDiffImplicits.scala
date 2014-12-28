@@ -20,7 +20,7 @@ package s_mach.datadiff
 
 import scala.language.higherKinds
 import scala.collection.generic.CanBuildFrom
-import s_mach.datadiff.impl.{MapDataDiff, OptionDataDiff, SeqDataDiffImpl, SetDataDiff}
+import s_mach.datadiff.impl.{MapDataDiffImpl, OptionDataDiff, SeqDataDiffImpl, SetDataDiff}
 
 trait CollectionDataDiffImplicits {
   implicit def mkOptionDataDiff[A,Patch](implicit
@@ -32,5 +32,5 @@ trait CollectionDataDiffImplicits {
   ) = new SeqDataDiffImpl[A,M]
   implicit def mkMapDataDiff[A,B,Patch](implicit
     bDiff:DataDiff[B,Patch]
-  ) = new MapDataDiff[A,B,Patch]
+  ) = new MapDataDiffImpl[A,B,Patch]
 }

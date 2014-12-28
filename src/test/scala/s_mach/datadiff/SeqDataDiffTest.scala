@@ -44,8 +44,8 @@ class SeqDataDiffTest extends FlatSpec with Matchers {
       )
     )
 
-    seq1 -->? seq2 should equal(Some(SeqPatch(deltas)))
-    seq1 -->? seq1 should equal(None)
+    seq1 -->? seq2 should equal(SeqPatch(deltas))
+    seq1 -->? seq1 should equal(SeqPatch.noChange)
   }
 
   "SeqDiff.patch" must "apply changes to an old value to achieve new value" in {

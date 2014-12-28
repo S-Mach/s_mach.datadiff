@@ -20,50 +20,53 @@ package s_mach.datadiff.testdata
 
 import s_mach.datadiff._
 
-case class TestDataPatch(value1: Option[String], value2: Option[Int])
+case class TestDataPatch(value1: StringPatch, value2: IntPatch)
+object TestDataPatch {
+  val noChange = TestDataPatch(patchFor[String].noChange, patchFor[Int].noChange)
+}
 case class TestData(value1: String, value2: Int)
 object TestData {
   implicit val dataDiff_TestData = DataDiff.forProductType[TestData,TestDataPatch]
 }
 
-case class TestData2Patch(
-  value1: Option[Int],
-  value2: Option[String],
-  value3: Option[OptionPatch[Double,Double]],
-  value4: Option[TestDataPatch]
-)
-case class TestData2(
-  value1: Int,
-  value2: String,
-  value3: Option[Double],
-  value4: TestData
-)
-object TestData2 {
-  implicit val dataDiff_TestData2 = DataDiff.forProductType[TestData2,TestData2Patch]
-}
-
-case class TestData3Patch(value1: Option[(Option[Int],Option[String],Option[Double])])
-case class TestData3(value1: (Int,String,Double))
-object TestData3 {
-  implicit val dataDiff_TestData3 = DataDiff.forProductType[TestData3,TestData3Patch]
-}
-
-case class TestData4Patch(
-  value1: Option[Int],
-  value2: Option[TestData2Patch],
-  value3: Option[SeqPatch[Double]],
-  value4: Option[TestData3Patch]
-)
-case class TestData4(
-  value1: Int,
-  value2: TestData2,
-  value3: List[Double],
-  value4: TestData3
-)
-object TestData4 {
-  implicit val dataDiff_TestData4 = DataDiff.forProductType[TestData4,TestData4Patch]
-}
-
+//case class TestData2Patch(
+//  value1: Option[Int],
+//  value2: Option[String],
+//  value3: Option[OptionPatch[Double,Double]],
+//  value4: Option[TestDataPatch]
+//)
+//case class TestData2(
+//  value1: Int,
+//  value2: String,
+//  value3: Option[Double],
+//  value4: TestData
+//)
+//object TestData2 {
+//  implicit val dataDiff_TestData2 = DataDiff.forProductType[TestData2,TestData2Patch]
+//}
+//
+//case class TestData3Patch(value1: Option[(Option[Int],Option[String],Option[Double])])
+//case class TestData3(value1: (Int,String,Double))
+//object TestData3 {
+//  implicit val dataDiff_TestData3 = DataDiff.forProductType[TestData3,TestData3Patch]
+//}
+//
+//case class TestData4Patch(
+//  value1: Option[Int],
+//  value2: Option[TestData2Patch],
+//  value3: Option[SeqPatch[Double]],
+//  value4: Option[TestData3Patch]
+//)
+//case class TestData4(
+//  value1: Int,
+//  value2: TestData2,
+//  value3: List[Double],
+//  value4: TestData3
+//)
+//object TestData4 {
+//  implicit val dataDiff_TestData4 = DataDiff.forProductType[TestData4,TestData4Patch]
+//}
+//
 //case class TestEnumPatch(value1: Option[String])
 //sealed trait TestEnum extends Product
 //case object TestEnum1 extends TestEnum

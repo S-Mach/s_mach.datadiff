@@ -27,21 +27,36 @@ class DataDiffMacroBuilderImpl(val c: blackbox.Context) extends
   DataDiffMacroBuilder with
   BlackboxHelper {
   import c.universe._
-
-  def build[A: c.WeakTypeTag,P: c.WeakTypeTag]() : c.Expr[DataDiff[A,P]] = {
+  
+  case class FieldEx(
+    aFieldName: String,
+    aFieldType: c.Type,
+    pFieldName: String,
+    pFieldType: c.Type
+  ) {
+    val fieldTermName = TermName(aFieldName)
+    val dataDiffTermName = TermName(s"${aFieldName}DataDiff")
+    val patchTermName = TermName(s"${aFieldName}Patch")
+  }
+  
+  def build[A: c.WeakTypeTag,P: c.WeakTypeTag] : c.Expr[DataDiff[A,P]] = {
     val aType = c.weakTypeOf[A]
     val pType = c.weakTypeOf[P]
 
-    val productType = abortIfFailure(ProductType(aType))
+    val aProductType = abortIfFailure(ProductType(aType))
+    val pProductType = abortIfFailure(ProductType(pType))
 
-    val lcs = ('a' to 'z').map(_.toString)
-
-    val oomPatch = productType.oomField
-      .zip(lcs)
-      .map { case (ProductType.Field(fieldName,_type),lc) =>
-        val field = TermName(fieldName)
-        (TermName(lc),TermName(s"${lc}Patch"),field)
-      }
+    val oomFieldEx =
+      aProductType.oomField
+        .zip(pProductType.oomField)
+        .map { case (aField,pField) =>
+          FieldEx(
+            aFieldName = aField.fieldName,
+            aFieldType = aField._type,
+            pFieldName = pField.fieldName,
+            pFieldType = pField._type
+          )
+        }
 
     // TODO: there should be a proper why to get this using quasi-quotes
     val aCompanion = Ident(TermName(aType.typeSymbol.name.toString))
@@ -49,32 +64,54 @@ class DataDiffMacroBuilderImpl(val c: blackbox.Context) extends
     val result = c.Expr[DataDiff[A,P]] {
       q"""
 new DataDiff[$aType,$pType] {
-  def calcDiff(oldValue: $aType, newValue: $aType) : Option[$pType] = {
+  ..${
+    oomFieldEx.map { field =>
+      import field._
+      q"val $dataDiffTermName = implicitly[DataDiff[$aFieldType,$pFieldType]]"
+    }
+  }
+  val noChange = $pCompanion.apply(
     ..${
-      oomPatch.map { case (_,patchName,field) =>
-        q"val $patchName = oldValue.$field calcDiff newValue.$field"
+      oomFieldEx.map { field =>
+        import field._
+        q"$dataDiffTermName.noChange"
+      }
+    }
+  )
+
+  def calcDiff(oldValue: $aType, newValue: $aType) : $pType = {
+    ..${
+      oomFieldEx.map { field =>
+        import field._
+        q"val $patchTermName = $dataDiffTermName.calcDiff(oldValue.$fieldTermName,newValue.$fieldTermName)"
       }
     }
     if(${
-      oomPatch
-        .map { case (_,patchName,_) =>
-          q"$patchName.isEmpty".asInstanceOf[c.Tree]
+      oomFieldEx
+        .map { field =>
+          import field._
+          q"$patchTermName == $dataDiffTermName.noChange".asInstanceOf[c.Tree]
         }
         .reduce { (a,b) => q"$a && $b"}
     }) {
-      None
+      noChange
     } else {
-      Some($pCompanion.apply(..${oomPatch.map(_._2)}))
+      $pCompanion.apply(..${oomFieldEx.map(_.patchTermName)})
     }
   }
 
   def applyPatch(value: $aType, patch: $pType) : $aType = {
-    ..${
-      oomPatch.map { case (lc,_,field) =>
-        q"val $lc = patch.$field.fold(value.$field)(p => value.$field.applyPatch(p))"
+    if(patch != noChange) {
+      ..${
+        oomFieldEx.map { field =>
+          import field._
+          q"val $fieldTermName = if(patch.$fieldTermName == $dataDiffTermName.noChange) value.$fieldTermName else value.$fieldTermName.applyPatch(patch.$fieldTermName)"
+        }
       }
+      $aCompanion.apply(..${oomFieldEx.map(_.fieldTermName)})
+    } else {
+      value
     }
-    $aCompanion.apply(..${oomPatch.map(_._1)})
   }
 }
       """

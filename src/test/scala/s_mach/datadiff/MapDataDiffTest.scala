@@ -39,21 +39,21 @@ class MapDataDiffTest extends FlatSpec with Matchers {
 
   "MapDiff.diff" must "detect differences between the old and new value" in {
     {
-      map1 -->? map2 should equal(Some(MapPatch(
+      map1 -->? map2 should equal(MapPatch(
         add = Map(4 -> "e"),
         remove = Set(1),
-        change = Map(3 -> "cc")
-      )))
-      map1 -->? map1 should equal(None)
+        change = Map(3 -> Some("cc"))
+      ))
+      map1 -->? map1 should equal(MapPatch.noChange)
     }
 
     {
-      map3 -->? map4 should equal(Some(MapPatch(
+      map3 -->? map4 should equal(MapPatch(
         add = Map(4 -> TestData("e",6)),
         remove = Set(1),
-        change = Map(3 -> TestDataPatch(Some("cc"), None))
-      )))
-      map3 -->? map3 should equal(None)
+        change = Map(3 -> TestDataPatch(Some("cc"), patchFor[Int].noChange))
+      ))
+      map3 -->? map3 should equal(MapPatch.noChange)
     }
   }
 

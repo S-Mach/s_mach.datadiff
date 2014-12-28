@@ -25,13 +25,16 @@ import scala.collection.generic.CanBuildFrom
 class SetDataDiff[A](implicit
   cbf: CanBuildFrom[Nothing, A, Set[A]]
 ) extends DataDiff[Set[A],SetPatch[A]] {
-  override def calcDiff(oldValue: Set[A], newValue: Set[A]): Option[Patch] = {
+
+  override val noChange : SetPatch[A] = SetPatch.noChange
+
+  override def calcDiff(oldValue: Set[A], newValue: Set[A]): Patch = {
     val remove = oldValue -- newValue
     if(remove.isEmpty && oldValue.size == newValue.size) {
-      None
+      noChange
     } else {
       val add = newValue -- oldValue
-      Some(SetPatch(add, remove))
+      SetPatch(add, remove)
     }
   }
 

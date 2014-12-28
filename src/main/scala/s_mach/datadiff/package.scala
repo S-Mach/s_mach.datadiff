@@ -26,7 +26,13 @@ package object datadiff extends
     def infer[P](implicit ev:DataDiff[A,P]) : DataDiff[A,P]
   }
   def dataDiff[A] = new InferDataDiff[A] {
-    def infer[P](implicit aDiff:DataDiff[A,P]) = aDiff
+    def infer[P](implicit aDiff:DataDiff[A,P]) : DataDiff[A,P] = aDiff
+  }
+  trait InferPatch[A] {
+    def noChange[P](implicit ev:DataDiff[A,P]) : P
+  }
+  def patchFor[A] = new InferPatch[A] {
+    def noChange[P](implicit aDiff:DataDiff[A,P]) : P = aDiff.noChange
   }
 
   implicit class SMach_Datadiff_PimpEverything[A](val self: A) extends AnyVal {
@@ -34,14 +40,14 @@ package object datadiff extends
       other: A
     )(implicit
       aDiff:DataDiff[A,Patch]
-    ) : Option[Patch] =
+    ) : Patch =
       aDiff.calcDiff(self, other)
 
     def -->?[Patch](
       other: A
     )(implicit
       aDiff:DataDiff[A,Patch]
-    ) : Option[Patch] =
+    ) : Patch =
       aDiff.calcDiff(self, other)
 
     def applyPatch[Patch](
@@ -50,20 +56,10 @@ package object datadiff extends
       aDiff:DataDiff[A,Patch]
     ) : A = aDiff.applyPatch(self, patch)
 
-    def applyPatch[Patch](
-      optPatch: Option[Patch]
-    )(implicit
-      aDiff:DataDiff[A,Patch]
-    ) : A =
-      optPatch match {
-        case Some(patch) => aDiff.applyPatch(self, patch)
-        case None => self
-      }
-
     def |<--[Patch](
-      optPatch: Option[Patch]
+      patch: Patch
     )(implicit
       aDiff:DataDiff[A,Patch]
-    ) : A = applyPatch(optPatch)
+    ) : A = applyPatch(patch)
   }
 }

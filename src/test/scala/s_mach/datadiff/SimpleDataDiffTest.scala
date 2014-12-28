@@ -19,17 +19,21 @@
 package s_mach.datadiff
 
 import org.scalatest.{Matchers, FlatSpec}
+import s_mach.datadiff.impl.SimpleDataDiff
 
 class SimpleDataDiffTest extends FlatSpec with Matchers {
 
-  "SimpleDiff.diff" must "detect differences between the old and new value" in {
-    1 calcDiff 2 should equal(Some(2))
-    1 calcDiff 1 should equal(None)
+  val d = new SimpleDataDiff[Int]
+  "SimpleDiffImpl.diff" must "detect differences between the old and new value" in {
+    d.calcDiff(1,2) should equal(Some(2))
+    d.calcDiff(1,1) should equal(None)
   }
 
   "SimpleDiff.patch" must "apply changes to an old value to achieve new value" in {
-    val d = 1 calcDiff 2
-    1 applyPatch d should equal(2)
+    val d1 = d.calcDiff(1,2)
+    d.applyPatch(1,d1) should equal(2)
+    val d2 = d.calcDiff(1,1)
+    d.applyPatch(2,d2) should equal(2)
   }
 
 }

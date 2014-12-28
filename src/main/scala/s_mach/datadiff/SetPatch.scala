@@ -18,4 +18,12 @@
 */
 package s_mach.datadiff
 
-case class SetPatch[A](add: Set[A], remove: Set[A])
+case class SetPatch[A](
+  add: Set[A], // Note: set is invariant for A
+  remove: Set[A]
+)
+
+object SetPatch {
+  val _noChange = SetPatch(Set.empty[Any], Set.empty[Any])
+  def noChange[A] = _noChange.asInstanceOf[SetPatch[A]]
+}

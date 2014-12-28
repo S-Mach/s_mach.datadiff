@@ -20,19 +20,23 @@ package s_mach.datadiff.impl
 
 import s_mach.datadiff.{MapPatch, DataDiff}
 
-class MapDataDiff[A,B,P](implicit
+class MapDataDiffImpl[A,B,P](implicit
   bDiff: DataDiff[B,P]
 ) extends DataDiff[Map[A,B],MapPatch[A,B,P]] {
-  override def calcDiff(oldValue: Map[A,B], newValue: Map[A,B]): Option[Patch] = {
+
+  override val noChange : MapPatch[A,B,P] = MapPatch.noChange
+
+  override def calcDiff(oldValue: Map[A,B], newValue: Map[A,B]): Patch = {
     val removeBuilder = Set.newBuilder[A]
     val changeBuilder = Map.newBuilder[A,P]
     oldValue.foreach { case (a,oldB) =>
       newValue.get(a) match {
         case Some(newB) =>
           bDiff.calcDiff(oldB, newB) match {
-            case Some(patch) =>
-              changeBuilder += ((a, patch))
-            case None =>
+            case bDiff.noChange =>
+
+            case bPatch =>
+              changeBuilder += ((a, bPatch))
           }
         case None =>
           removeBuilder += a
@@ -47,9 +51,9 @@ class MapDataDiff[A,B,P](implicit
     val remove = removeBuilder.result()
     val change = changeBuilder.result()
     if(add.isEmpty && remove.isEmpty && change.isEmpty) {
-      None
+      noChange
     } else {
-      Some(MapPatch(add, remove, change))
+      MapPatch(add, remove, change)
     }
   }
 

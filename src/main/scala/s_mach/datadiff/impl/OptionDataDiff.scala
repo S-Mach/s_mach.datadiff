@@ -25,8 +25,11 @@ class AppliedInnerPatchToNoneException extends RuntimeException
 class OptionDataDiff[A,P](implicit
   aDiff: DataDiff[A,P]
 ) extends DataDiff[Option[A],OptionPatch[A,P]] {
+
+  override val noChange = OptionPatch.noChange
+
   // Note: some impls may build diff at same time equality is tested
-  override def calcDiff(optOldValue: Option[A], optNewValue: Option[A]): Option[OptionPatch[A,P]] = {
+  override def calcDiff(optOldValue: Option[A], optNewValue: Option[A]): OptionPatch[A,P] = {
     optOldValue match {
       // Old was set
       case Some(oldValue) =>
@@ -34,24 +37,26 @@ class OptionDataDiff[A,P](implicit
           case Some(newValue) =>
             // Using map/Some.apply here so that if there is no diff between
             // old and new then result is None
-            aDiff.calcDiff(oldValue,newValue).map { patch =>
-              OptionPatch.ApplyInnerPatch(patch)
+            aDiff.calcDiff(oldValue,newValue) match {
+              case aDiff.noChange => OptionPatch.noChange
+              case aPatch => OptionPatch.ApplyInnerPatch(aPatch)
             }
-          case None => Some(OptionPatch.SetNone)
+          case None => OptionPatch.SetNone
         }
         
       // Old value was unset
       case None =>
         optNewValue match {
           // If new value is set, need to convert it to a patch since no old value to diff against
-          case Some(newValue) => Some(OptionPatch.SetValue(newValue))
-          case None => None
+          case Some(newValue) => OptionPatch.SetValue(newValue)
+          case None => noChange
         }
     }
   }
 
   override def applyPatch(optValue: Option[A], patch: OptionPatch[A,P]): Option[A] = {
     patch match {
+      case OptionPatch.NoChange => optValue
       // Patch value to Some(A), extract inner patch for A
       case OptionPatch.ApplyInnerPatch(aPatch) =>
         optValue match {

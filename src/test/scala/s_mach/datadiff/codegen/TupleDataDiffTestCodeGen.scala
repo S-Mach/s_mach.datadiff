@@ -24,25 +24,26 @@ object TupleDataDiffTestCodeGen {
     val ucs = ('A' to 'Z').map(_.toString).take(n)
     val allUcs = ucs.mkString(",")
     val allLcs = lcs.mkString(",")
-
-s"""
+    val indices = 0 until n
+    s"""
   "Tuple${n}Diff.diff" must "detect differences between the old and new value" in {
-    val tuple = (${(0 until n).map(i => "Random.nextInt()").mkString(",")})
+    val noChange = patchFor[Int].noChange
+    val tuple = (${indices.map(i => "Random.nextInt()").mkString(",")})
     val modTuple = tuple.copy(_2 = Random.nextInt())
-    tuple calcDiff modTuple should equal(Some((None,Some(modTuple._2)${if(n > 2 ) "," + (2 until n).map(i => "None").mkString(",") else ""})))
-    tuple calcDiff tuple should equal(None)
+    tuple calcDiff modTuple should equal((noChange,modTuple._2 - tuple._2${if(n > 2 ) "," + (2 until n).map(i => "noChange").mkString(",") else ""}))
+    tuple calcDiff tuple should equal(patchFor[(${indices.map(_ => s"Int").mkString(",")})].noChange)
   }
 
   "Tuple${n}Diff.patch" must "apply changes to an old value to achieve new value" in {
     {
-      val tuple = (${(0 until n).map(i => "Random.nextInt()").mkString(",")})
+      val tuple = (${indices.map(i => "Random.nextInt()").mkString(",")})
       val modTuple = tuple.copy(_1 = Random.nextInt())
       val d = tuple calcDiff modTuple
       tuple applyPatch d should equal(modTuple)
     }
 
     {
-      val tuple = (${(0 until n).map(i => "Random.nextInt()").mkString(",")})
+      val tuple = (${indices.map(i => "Random.nextInt()").mkString(",")})
       val modTuple = tuple.copy(${(2 to n).map(i => s"_$i = tuple._$i + 1").mkString(",")})
       val d = tuple calcDiff modTuple
       tuple applyPatch d should equal(modTuple)

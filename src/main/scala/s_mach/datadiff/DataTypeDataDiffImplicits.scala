@@ -18,18 +18,35 @@
 */
 package s_mach.datadiff
 
-import s_mach.datadiff.impl.SimpleDataDiff
+import s_mach.datadiff.impl.{NumericDataDiffImpl, SimpleDataDiff}
 
 trait DataTypeDataDiffImplicits {
-  implicit object DataDiff_Boolean extends SimpleDataDiff[Boolean]
-  implicit object DataDiff_Byte extends SimpleDataDiff[Byte]
-  implicit object DataDiff_Short extends SimpleDataDiff[Short]
-  implicit object DataDiff_Int extends SimpleDataDiff[Int]
-  implicit object DataDiff_Long extends SimpleDataDiff[Long]
-  implicit object DataDiff_Float extends SimpleDataDiff[Float]
-  implicit object DataDiff_Double extends SimpleDataDiff[Double]
-  implicit object DataDiff_Char extends SimpleDataDiff[Char]
+  implicit object DataDiff_Boolean extends DataDiff[Boolean, Boolean] {
+    override val noChange = false
+
+    override def calcDiff(oldValue: Boolean, newValue: Boolean): Boolean = {
+      oldValue == newValue
+    }
+
+    override def applyPatch(value: Boolean, patch: Boolean): Boolean = {
+      if(patch) {
+        !value
+      } else {
+        value
+      }
+    }
+  }
+  type BooleanPatch = Boolean
+  implicit object DataDiff_Byte extends NumericDataDiffImpl[Byte]
+  implicit object DataDiff_Short extends NumericDataDiffImpl[Short]
+  implicit object DataDiff_Int extends NumericDataDiffImpl[Int]
+  type IntPatch = Int
+  implicit object DataDiff_Long extends NumericDataDiffImpl[Long]
+  implicit object DataDiff_Float extends NumericDataDiffImpl[Float]
+  implicit object DataDiff_Double extends NumericDataDiffImpl[Double]
+  implicit object DataDiff_Char extends NumericDataDiffImpl[Char]
   implicit object DataDiff_String extends SimpleDataDiff[String]
-  implicit object DataDiff_BigInt extends SimpleDataDiff[BigInt]
-  implicit object DataDiff_BigDecimal extends SimpleDataDiff[BigDecimal]
+  type StringPatch = DataDiff_String.Patch
+  implicit object DataDiff_BigInt extends NumericDataDiffImpl[BigInt]
+  implicit object DataDiff_BigDecimal extends NumericDataDiffImpl[BigDecimal]
 }

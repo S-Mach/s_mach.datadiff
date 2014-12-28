@@ -18,8 +18,14 @@
 */
 package s_mach.datadiff
 
-case class MapPatch[A,B,P](
+case class MapPatch[A,+B,+P]( // Note: Map is invariant for A
   add: Map[A,B],
   remove: Set[A],
   change: Map[A,P]
 )
+
+object MapPatch {
+  val _noChange = MapPatch(Map.empty[Any,Any], Set.empty, Map.empty)
+  def noChange[A] : MapPatch[A,Nothing,Nothing] =
+    _noChange.asInstanceOf[MapPatch[A,Nothing,Nothing]]
+}

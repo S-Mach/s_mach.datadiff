@@ -24,7 +24,7 @@ import scala.reflect.macros.blackbox
 
 trait DataDiffMacroBuilder {
   val c:blackbox.Context
-  def build[A: c.WeakTypeTag,P:c.WeakTypeTag]() : c.Expr[DataDiff[A,P]]
+  def build[A: c.WeakTypeTag,P:c.WeakTypeTag] : c.Expr[DataDiff[A,P]]
 }
 
 object DataDiffMacroBuilder {
