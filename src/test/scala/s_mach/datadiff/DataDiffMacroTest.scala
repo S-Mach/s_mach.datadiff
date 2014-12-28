@@ -41,10 +41,6 @@ class DataDiffMacroTest extends FlatSpec with Matchers {
   }
 
   "DataDiff.forProductType" must "generate a DataDiff instance given a tuple type" in {
-    implicit def mkTuple2Diff[A,B,PA,PB](implicit
-      aDiff: DataDiff[A,PA],
-      bDiff: DataDiff[B,PB]
-    ) = DataDiff.forProductType[(A,B),(PA,PB)]
 
     val d1 = ("1",2)
     val d2 = ("1",3)

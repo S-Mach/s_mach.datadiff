@@ -27,20 +27,20 @@ class SeqDataDiffTest extends FlatSpec with Matchers {
 
   "SeqDiff.diff" must "detect differences between the old and new value" in {
     val deltas = Vector(
-      SeqDelta(
-        _type = SeqDeltaDelete,
-        original = SeqChunk(0,Vector(1)),
-        revised = SeqChunk(0,Vector.empty)
+      SeqPatch.Delta(
+        _type = SeqPatch.Delete,
+        original = SeqPatch.Chunk(0,Vector(1)),
+        revised = SeqPatch.Chunk(0,Vector.empty)
       ),
-      SeqDelta(
-        _type = SeqDeltaChange,
-        original = SeqChunk(2,Vector(3)),
-        revised = SeqChunk(1,Vector(7))
+      SeqPatch.Delta(
+        _type = SeqPatch.Change,
+        original = SeqPatch.Chunk(2,Vector(3)),
+        revised = SeqPatch.Chunk(1,Vector(7))
       ),
-      SeqDelta(
-        _type = SeqDeltaInsert,
-        original = SeqChunk(4,Vector.empty),
-        revised = SeqChunk(3,Vector(5))
+      SeqPatch.Delta(
+        _type = SeqPatch.Insert,
+        original = SeqPatch.Chunk(4,Vector.empty),
+        revised = SeqPatch.Chunk(3,Vector(5))
       )
     )
 

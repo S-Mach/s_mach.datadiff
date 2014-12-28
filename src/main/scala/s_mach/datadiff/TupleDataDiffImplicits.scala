@@ -22,13 +22,13 @@ package s_mach.datadiff
 
 trait TupleDataDiffImplicits {
 
-  implicit def mkTuple2Diff[A,B,PA,PB](implicit
+  implicit def mkDataDiff_Tuple2[A,B,PA,PB](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB]
   ) : DataDiff[(A,B),(PA,PB)] =
     DataDiff.forProductType[(A,B),(PA,PB)]
 
-  implicit def mkTuple3Diff[A,B,C,PA,PB,PC](implicit
+  implicit def mkDataDiff_Tuple3[A,B,C,PA,PB,PC](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC]
@@ -36,7 +36,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C),(PA,PB,PC)]
 
 
-  implicit def mkTuple4Diff[A,B,C,D,PA,PB,PC,PD](implicit
+  implicit def mkDataDiff_Tuple4[A,B,C,D,PA,PB,PC,PD](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -45,7 +45,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D),(PA,PB,PC,PD)]
 
 
-  implicit def mkTuple5Diff[A,B,C,D,E,PA,PB,PC,PD,PE](implicit
+  implicit def mkDataDiff_Tuple5[A,B,C,D,E,PA,PB,PC,PD,PE](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -55,7 +55,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E),(PA,PB,PC,PD,PE)]
 
 
-  implicit def mkTuple6Diff[A,B,C,D,E,F,PA,PB,PC,PD,PE,PF](implicit
+  implicit def mkDataDiff_Tuple6[A,B,C,D,E,F,PA,PB,PC,PD,PE,PF](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -66,7 +66,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F),(PA,PB,PC,PD,PE,PF)]
 
 
-  implicit def mkTuple7Diff[A,B,C,D,E,F,G,PA,PB,PC,PD,PE,PF,PG](implicit
+  implicit def mkDataDiff_Tuple7[A,B,C,D,E,F,G,PA,PB,PC,PD,PE,PF,PG](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -78,7 +78,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G),(PA,PB,PC,PD,PE,PF,PG)]
 
 
-  implicit def mkTuple8Diff[A,B,C,D,E,F,G,H,PA,PB,PC,PD,PE,PF,PG,PH](implicit
+  implicit def mkDataDiff_Tuple8[A,B,C,D,E,F,G,H,PA,PB,PC,PD,PE,PF,PG,PH](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -91,7 +91,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H),(PA,PB,PC,PD,PE,PF,PG,PH)]
 
 
-  implicit def mkTuple9Diff[A,B,C,D,E,F,G,H,I,PA,PB,PC,PD,PE,PF,PG,PH,PI](implicit
+  implicit def mkDataDiff_Tuple9[A,B,C,D,E,F,G,H,I,PA,PB,PC,PD,PE,PF,PG,PH,PI](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -105,7 +105,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I),(PA,PB,PC,PD,PE,PF,PG,PH,PI)]
 
 
-  implicit def mkTuple10Diff[A,B,C,D,E,F,G,H,I,J,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ](implicit
+  implicit def mkDataDiff_Tuple10[A,B,C,D,E,F,G,H,I,J,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -120,7 +120,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ)]
 
 
-  implicit def mkTuple11Diff[A,B,C,D,E,F,G,H,I,J,K,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK](implicit
+  implicit def mkDataDiff_Tuple11[A,B,C,D,E,F,G,H,I,J,K,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -136,7 +136,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK)]
 
 
-  implicit def mkTuple12Diff[A,B,C,D,E,F,G,H,I,J,K,L,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL](implicit
+  implicit def mkDataDiff_Tuple12[A,B,C,D,E,F,G,H,I,J,K,L,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -153,7 +153,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL)]
 
 
-  implicit def mkTuple13Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM](implicit
+  implicit def mkDataDiff_Tuple13[A,B,C,D,E,F,G,H,I,J,K,L,M,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -171,7 +171,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM)]
 
 
-  implicit def mkTuple14Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN](implicit
+  implicit def mkDataDiff_Tuple14[A,B,C,D,E,F,G,H,I,J,K,L,M,N,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -190,7 +190,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN)]
 
 
-  implicit def mkTuple15Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO](implicit
+  implicit def mkDataDiff_Tuple15[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -210,7 +210,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO)]
 
 
-  implicit def mkTuple16Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP](implicit
+  implicit def mkDataDiff_Tuple16[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -231,7 +231,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP)]
 
 
-  implicit def mkTuple17Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ](implicit
+  implicit def mkDataDiff_Tuple17[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -253,7 +253,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ)]
 
 
-  implicit def mkTuple18Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR](implicit
+  implicit def mkDataDiff_Tuple18[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -276,7 +276,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR)]
 
 
-  implicit def mkTuple19Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS](implicit
+  implicit def mkDataDiff_Tuple19[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -300,7 +300,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS)]
 
 
-  implicit def mkTuple20Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT](implicit
+  implicit def mkDataDiff_Tuple20[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -325,7 +325,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT)]
 
 
-  implicit def mkTuple21Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU](implicit
+  implicit def mkDataDiff_Tuple21[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],
@@ -351,7 +351,7 @@ trait TupleDataDiffImplicits {
     DataDiff.forProductType[(A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U),(PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU)]
 
 
-  implicit def mkTuple22Diff[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU,PV](implicit
+  implicit def mkDataDiff_Tuple22[A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,PA,PB,PC,PD,PE,PF,PG,PH,PI,PJ,PK,PL,PM,PN,PO,PP,PQ,PR,PS,PT,PU,PV](implicit
     aDiff: DataDiff[A,PA],
     bDiff: DataDiff[B,PB],
     cDiff: DataDiff[C,PC],

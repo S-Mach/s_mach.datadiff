@@ -20,12 +20,10 @@ package s_mach.datadiff.impl
 
 
 import scala.reflect.macros.blackbox
-import s_mach.datadiff.{DataDiffMacroBuilder, DataDiff}
+import s_mach.datadiff.DataDiff
 import s_mach.codetools.BlackboxHelper
 
-class DataDiffMacroBuilderImpl(val c: blackbox.Context) extends
-  DataDiffMacroBuilder with
-  BlackboxHelper {
+class DataDiffMacroBuilderImpl(val c: blackbox.Context) extends BlackboxHelper {
   import c.universe._
   
   case class FieldEx(

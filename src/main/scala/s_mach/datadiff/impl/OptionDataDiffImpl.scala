@@ -22,7 +22,7 @@ import s_mach.datadiff.{OptionPatch, DataDiff}
 
 class AppliedInnerPatchToNoneException extends RuntimeException
 
-class OptionDataDiff[A,P](implicit
+class OptionDataDiffImpl[A,P](implicit
   aDiff: DataDiff[A,P]
 ) extends DataDiff[Option[A],OptionPatch[A,P]] {
 

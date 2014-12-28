@@ -16,19 +16,25 @@
           .L1 1tt1ttt,,Li
             ...1LLLL...
 */
-package s_mach.datadiff
+package s_mach.datadiff.impl
 
-import s_mach.datadiff.impl.DataDiffMacroBuilderImpl
+import s_mach.datadiff.DataDiff
 
-import scala.reflect.macros.blackbox
+class SimpleDataDiffImpl[A] extends DataDiff[A,Option[A]] {
 
-trait DataDiffMacroBuilder {
-  val c:blackbox.Context
-  def build[A: c.WeakTypeTag,P:c.WeakTypeTag] : c.Expr[DataDiff[A,P]]
+  override val noChange = None
+
+  override def calcDiff(oldValue: A, newValue: A) = {
+    if(oldValue != newValue) {
+      Some(newValue)
+    } else {
+      None
+    }
+  }
+
+  override def applyPatch(value: A, patch: Option[A]): A = patch match {
+    case Some(newValue) => newValue
+    case None => value
+  }
+
 }
-
-object DataDiffMacroBuilder {
-  def apply(c:blackbox.Context) : DataDiffMacroBuilder =
-    new DataDiffMacroBuilderImpl(c)
-}
-

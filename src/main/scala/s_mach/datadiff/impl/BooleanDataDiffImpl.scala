@@ -18,31 +18,20 @@
 */
 package s_mach.datadiff.impl
 
-import s_mach.datadiff.{SetPatch, DataDiff}
+import s_mach.datadiff.DataDiff
 
-import scala.collection.generic.CanBuildFrom
+class BooleanDataDiffImpl extends DataDiff[Boolean, Boolean] {
+  override val noChange = false
 
-class SetDataDiff[A](implicit
-  cbf: CanBuildFrom[Nothing, A, Set[A]]
-) extends DataDiff[Set[A],SetPatch[A]] {
+  override def calcDiff(oldValue: Boolean, newValue: Boolean): Boolean = {
+    oldValue == newValue
+  }
 
-  override val noChange : SetPatch[A] = SetPatch.noChange
-
-  override def calcDiff(oldValue: Set[A], newValue: Set[A]): Patch = {
-    val remove = oldValue -- newValue
-    if(remove.isEmpty && oldValue.size == newValue.size) {
-      noChange
+  override def applyPatch(value: Boolean, patch: Boolean): Boolean = {
+    if(patch) {
+      !value
     } else {
-      val add = newValue -- oldValue
-      SetPatch(add, remove)
+      value
     }
   }
-
-  override def applyPatch(value: Set[A], patch: Patch): Set[A] = {
-    val builder = cbf()
-    value.iterator.filterNot(patch.remove.contains).foreach(builder.+=)
-    builder ++= patch.add
-    builder.result()
-  }
-
 }

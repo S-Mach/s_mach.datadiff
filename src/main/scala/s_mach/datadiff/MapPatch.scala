@@ -18,6 +18,15 @@
 */
 package s_mach.datadiff
 
+/**
+ * A case class for a patch of a Map
+ * @param add (key,value) pairs added to the map
+ * @param remove keys removed from the map
+ * @param change (key,value) pairs changed
+ * @tparam A key type
+ * @tparam B value type
+ * @tparam P patch for the value type
+ */
 case class MapPatch[A,+B,+P]( // Note: Map is invariant for A
   add: Map[A,B],
   remove: Set[A],

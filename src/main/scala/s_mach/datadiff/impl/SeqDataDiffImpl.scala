@@ -21,38 +21,39 @@ package s_mach.datadiff.impl
 import scala.language.higherKinds
 import scala.collection.generic.CanBuildFrom
 import scala.collection.JavaConverters._
-import difflib._
+import difflib.{ DiffUtils, Chunk => JChunk, Delta => JDelta, InsertDelta, ChangeDelta, DeleteDelta }
 import s_mach.datadiff._
 
 class SeqDataDiffImpl[A,M[AA] <: Seq[AA]](implicit
   cbf:CanBuildFrom[Nothing, A, M[A]]
 ) extends DataDiff[M[A],SeqPatch[A]] {
-
+  import SeqPatch._
+  
   val noChange = SeqPatch.noChange
 
-  def chunkToSeqChunk(chunk: Chunk[A]) : SeqChunk[A] = {
-    SeqChunk(chunk.getPosition, chunk.getLines.asScala.toVector)
+  def jchunkToChunk(jchunk: JChunk[A]) : Chunk[A] = {
+    Chunk(jchunk.getPosition, jchunk.getLines.asScala.toVector)
   }
 
-  def deltaToSeqDelta(delta: Delta[A]) : SeqDelta[A] = {
-    val original = chunkToSeqChunk(delta.getOriginal)
-    val revised = chunkToSeqChunk(delta.getRevised)
-    delta match {
-      case i:InsertDelta[A] => SeqDelta(SeqDeltaInsert, original, revised)
-      case c:ChangeDelta[A] => SeqDelta(SeqDeltaChange, original, revised)
-      case d:DeleteDelta[A] => SeqDelta(SeqDeltaDelete, original, revised)
+  def jdeltaToDelta(jdelta: JDelta[A]) : Delta[A] = {
+    val original = jchunkToChunk(jdelta.getOriginal)
+    val revised = jchunkToChunk(jdelta.getRevised)
+    jdelta match {
+      case i:InsertDelta[A] => Delta(Insert, original, revised)
+      case c:ChangeDelta[A] => Delta(Change, original, revised)
+      case d:DeleteDelta[A] => Delta(Delete, original, revised)
     }
   }
 
-  def seqChunkToChunk(chunk: SeqChunk[A]) : Chunk[A] = new Chunk[A](chunk.position, chunk.lines.asJava)
+  def chunkToJChunk(chunk: Chunk[A]) : JChunk[A] = new JChunk[A](chunk.position, chunk.lines.asJava)
 
-  def seqDeltaToDelta(seqDelta: SeqDelta[A]) : Delta[A] = {
-    val original = seqChunkToChunk(seqDelta.original)
-    val revised = seqChunkToChunk(seqDelta.revised)
-    seqDelta._type match {
-      case SeqDeltaInsert => new InsertDelta[A](original, revised)
-      case SeqDeltaChange => new ChangeDelta[A](original, revised)
-      case SeqDeltaDelete => new DeleteDelta[A](original, revised)
+  def deltaToJDelta(delta: Delta[A]) : JDelta[A] = {
+    val original = chunkToJChunk(delta.original)
+    val revised = chunkToJChunk(delta.revised)
+    delta._type match {
+      case Insert => new InsertDelta[A](original, revised)
+      case Change => new ChangeDelta[A](original, revised)
+      case Delete => new DeleteDelta[A](original, revised)
     }
   }
   
@@ -61,14 +62,14 @@ class SeqDataDiffImpl[A,M[AA] <: Seq[AA]](implicit
     if(jPatch.getDeltas.isEmpty) {
       noChange
     } else {
-      SeqPatch(jPatch.getDeltas.asScala.iterator.map(deltaToSeqDelta).toVector)
+      SeqPatch(jPatch.getDeltas.asScala.iterator.map(jdeltaToDelta).toVector)
     }
   }
 
   override def applyPatch(value: M[A], patch: Patch): M[A] = {
     val builder = cbf()
     val jPatch = new difflib.Patch[A]
-    patch.zomSeqDelta.foreach(seqDelta => jPatch.addDelta(seqDeltaToDelta(seqDelta)))
+    patch.zomDelta.foreach(delta => jPatch.addDelta(deltaToJDelta(delta)))
     jPatch.applyTo(value.asJava).iterator.asScala.foreach(builder.+=)
     builder.result()
   }

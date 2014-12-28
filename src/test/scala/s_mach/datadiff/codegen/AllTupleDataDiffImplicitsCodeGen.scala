@@ -33,12 +33,12 @@ object AllTupleDataDiffImplicitsCodeGen {
         ucs.map(uc => s"P$uc")
       ).mkString(",")
 s"""
-  implicit def mkTuple${n}Diff[$typeParms](implicit
+  implicit def mkDataDiff_Tuple${n}[$typeParms](implicit
     ${(0 until n).map { i =>
       s"${lcs(i)}Diff: DataDiff[${ucs(i)},P${ucs(i)}]"
     }.mkString(",\n    ")}
   ) : DataDiff[$aType,$pType] =
-    mkDataDiff[$aType,$pType]
+    DataDiff.forProductType[$aType,$pType]
 """
   }
   

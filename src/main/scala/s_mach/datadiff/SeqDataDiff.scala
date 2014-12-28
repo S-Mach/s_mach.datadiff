@@ -23,6 +23,13 @@ import s_mach.datadiff.impl.SeqDataDiffImpl
 
 import scala.collection.generic.CanBuildFrom
 
+/**
+ * A reusable/extensible DataDiff implementation for sequences that is
+ * implemented using https://code.google.com/p/java-diff-utils/ which is based
+ * on http://www.xmailserver.org/diff2.pdf
+ * @tparam A the value type
+ * @tparam M the sequence type
+ */
 class SeqDataDiff[A,M[AA] <: Seq[AA]](implicit
   cbf:CanBuildFrom[Nothing, A, M[A]]
 ) extends SeqDataDiffImpl[A,M]

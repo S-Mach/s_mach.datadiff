@@ -18,22 +18,35 @@
 */
 package s_mach.datadiff
 
-case class SeqChunk[+A](position: Int, lines: Vector[A])
-
-sealed trait SeqDeltaType
-case object SeqDeltaInsert extends SeqDeltaType
-case object SeqDeltaChange extends SeqDeltaType
-case object SeqDeltaDelete extends SeqDeltaType
-
-case class SeqDelta[+A](
-  _type: SeqDeltaType,
-  original: SeqChunk[A],
-  revised: SeqChunk[A]
-)
-
-case class SeqPatch[+A](zomSeqDelta: Vector[SeqDelta[A]])
+/**
+ * A case class for a patch against a sequence of values
+ *
+ * Note: the current representation is based on
+ * https://code.google.com/p/java-diff-utils/ which is used internally to
+ * generate and apply patches. It stores the previous value as part of the
+ * patch, unlike all other patch types. The original value will eventually be
+ * removed in a later version and should not be used.
+ *
+ * @param zomDelta zero or more deltas
+ * @tparam A the value type
+ */
+case class SeqPatch[+A](zomDelta: Vector[SeqPatch.Delta[A]])
 
 object SeqPatch {
+  //
+  case class Chunk[+A](position: Int, lines: Vector[A])
+
+  sealed trait DeltaType
+  case object Insert extends DeltaType
+  case object Change extends DeltaType
+  case object Delete extends DeltaType
+
+  case class Delta[+A](
+    _type: DeltaType,
+    @deprecated("do not use","1.0.0") original: Chunk[A],
+    revised: Chunk[A]
+  )
+
   val noChange = SeqPatch(Vector.empty)
 }
 

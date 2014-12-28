@@ -18,7 +18,13 @@
 */
 package s_mach.datadiff
 
+/**
+ * A case class for a patch for an Option
+ * @tparam A the value type
+ * @tparam P the patch type for the value type
+ */
 sealed trait OptionPatch[+A,+P]
+
 object OptionPatch {
   val noChange = NoChange
   case object NoChange extends OptionPatch[Nothing,Nothing]

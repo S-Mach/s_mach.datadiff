@@ -18,6 +18,13 @@
 */
 package s_mach.datadiff
 
+/**
+ * A case class for a patch of a set
+ *
+ * @param add the items added to the set
+ * @param remove the items removed from the set
+ * @tparam A the value type
+ */
 case class SetPatch[A](
   add: Set[A], // Note: set is invariant for A
   remove: Set[A]
