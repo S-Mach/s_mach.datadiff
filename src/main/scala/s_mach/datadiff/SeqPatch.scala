@@ -33,7 +33,6 @@ package s_mach.datadiff
 case class SeqPatch[+A](zomDelta: Vector[SeqPatch.Delta[A]])
 
 object SeqPatch {
-  //
   case class Chunk[+A](position: Int, lines: Vector[A])
 
   sealed trait DeltaType
