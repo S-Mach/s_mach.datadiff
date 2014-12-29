@@ -4,27 +4,25 @@ v2,23-Dec-2014
 :blogpost-status: unpublished
 :blogpost-categories: s_mach, scala
 
-*UNDER CONSTRUCTION*
-
 image:https://travis-ci.org/S-Mach/s_mach.datadiff.svg[Build Status, link="https://travis-ci.org/S-Mach/s_mach.datadiff"]  image:https://coveralls.io/repos/S-Mach/s_mach.datadiff/badge.png?branch=master[Test Coverage,link="https://coveralls.io/r/S-Mach/s_mach.datadiff"] https://github.com/S-Mach/s_mach.datadiff[Code] http://s-mach.github.io/s_mach.datadiff/#s_mach.datadiff.package[Scaladoc]
 
 +s_mach.datadiff+ is an open-source data difference engine for Scala.
 Implementations of the +DataDiff+ type-class are provided which can compute the
 difference between all data types, +Option+, +Set+, +Seq+, +Map+ and all tuple
-classes. A +DataDiff+ implementation for any case class (or other type that has
-matching apply/unapply) can be generated at compile-time by the +mkDataDiff+
-macro method. The difference between any two instances is stored as a
-+patch type+, which can be user-defined per type. Patches can be applied to
-instances of the original type to propagate computed changes. All provided
-+DataDiff+ implementations are 100% strongly-typed and use absolutely no runtime
-reflection.
+types. A +DataDiff+ implementation for any case class (or other type that has
+matching apply/unapply) can be generated at compile-time by the
++DataDiff.forProductType+ macro method. The difference between any two instances
+is stored as a +patch type+, which can be user-defined per type. Patches can be
+applied to instances of the original type to propagate computed changes. All
+provided +DataDiff+ implementations are 100% strongly-typed and use absolutely
+no runtime reflection.
 
 == Include in SBT
 1. Add to +build.sbt+
 +
 [source,sbt,numbered]
 ----
-libraryDependencies += "net.s_mach" %% "datadiff" % "0.1-SNAPSHOT"
+libraryDependencies += "net.s_mach" %% "datadiff" % "1.0.0"
 ----
 NOTE: +s_mach.datadiff+ is currently only compiled for Scala 2.11 (though 2.10.4
 support can be added if there is interest)
@@ -39,7 +37,7 @@ libraries. However, no guarantees are made as to the stability or interface of
 code in the +s_mach.datadiff.impl+ package between versions.
 
 
-== Example: Compute the difference between case classes and apply patches
+== Example
 ----
 Welcome to Scala version 2.11.1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.7.0_72).
 Type in expressions to have them evaluated.
@@ -50,55 +48,73 @@ scala> :paste
 
 import s_mach.datadiff._
 
-case class Person(
-  name: String,
-  age: Int,
-  friends: Set[Person] = Set.empty
+case class Name(
+  first: String,
+  middle: Option[String],
+  last: String
 )
-case class PersonPatch(
-  name: Option[String],
-  age: Option[Int],
-  friends: Option[SetPatch[Person]]
+
+case class NamePatch(
+  first: StringPatch,
+  middle: OptionPatch[String, StringPatch],
+  last: StringPatch
 )
-object Person {
-  implicit val dataDiff_Person = mkDataDiff[Person,PersonPatch]
+
+object Name {
+  implicit val dataDiff_Name = DataDiff.forProductType[Name,NamePatch]
 }
 
-val friend1 = Person("Hal",46)
-val friend2 = Person("Wintermute",30)
-val friend3 = Person("Samantha",1)
+case class Person(
+  name: Name,
+  age: Int
+)
 
-val p1 = Person("Lance",36,Set(friend1,friend2))
-val p2 = Person("Lance",37,Set(friend1,friend2,friend3))
+case class PersonPatch(
+  name: NamePatch,
+  age: IntPatch
+)
+
+object Person {
+  implicit val dataDiff_Person = DataDiff.forProductType[Person,PersonPatch]
+}
+
+val p1 = Person(Name("Gary",None,"Oldman"),56)
+val p2 = Person(Name("Gary",Some("Freakn'"),"Oldman"),57)
 
 // Exiting paste mode, now interpreting.
 
 import s_mach.datadiff._
+defined class Name
+defined class NamePatch
+defined object Name
 defined class Person
 defined class PersonPatch
 defined object Person
-friend1: Person = Person(Hal,46,Set())
-friend2: Person = Person(Wintermute,30,Set())
-friend3: Person = Person(Samantha,1,Set())
-p1: Person = Person(Lance,36,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set())))
-p2: Person = Person(Lance,37,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set()), Person(Samantha,1,Set())))
+p1: Person = Person(Name(Gary,None,Oldman),56)
+p2: Person = Person(Name(Gary,Some(Freakn'),Oldman),57)
 
-scala> val patch = p1 calcDiff p2
-patch: Option[PersonPatch] = Some(PersonPatch(None,Some(37),Some(SetPatch(Set(Person(Samantha,1,Set())),Set()))))
+scala> val patch1 = p1 calcDiff p2
+patch1: PersonPatch = PersonPatch(NamePatch(None,SetValue(Freakn'),None),1)
+
+scala> patch1 == patchFor[Person].noChange
+res0: Boolean = false
 
 scala> val patch2 = p1 calcDiff p1
-patch: Option[PersonPatch] = None
+patch2: PersonPatch = PersonPatch(NamePatch(None,NoChange,None),0)
 
-scala> val p3 = p1 applyPatch patch
-p3: Person = Person(Lance,37,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set()), Person(Samantha,1,Set())))
+scala> patch2 == patchFor[Person].noChange
+res1: Boolean = true
 
-scala> val test1 = p3 == p2
-test1: Boolean = true
+scala> val p3 = p1 applyPatch patch1
+p3: Person = Person(Name(Gary,Some(Freakn'),Oldman),57)
 
-scala> val p4 = p1 applyPatch patch2
-p4: Person = Person(Lance,36,Set(Person(Hal,46,Set()), Person(Wintermute,30,Set())))
+scala> p2 == p1
+res2: Boolean = false
 
-scala> val test2 = p4 == p1
-test1: Boolean = true
+scala> val p3 = p1 applyPatch patch2
+p3: Person = Person(Name(Gary,None,Oldman),56)
+
+scala> p3 == p1
+res3: Boolean = true
 
 ----

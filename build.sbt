@@ -42,7 +42,7 @@ val publishSettings = Seq(
 val defaultSettings = Defaults.coreDefaultSettings ++ publishSettings ++ Seq(
   scalaVersion := "2.11.1",
   organization := "net.s_mach",
-  version := "0.1-SNAPSHOT",
+  version := "1.0.0",
   scalacOptions ++= Seq(
     "-feature",
     "-unchecked",
@@ -75,5 +75,5 @@ lazy val dataDiffCore = Project(
 )
   .settings(defaultSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "net.s_mach" %% "codetools" % "1.0.1"
+    "net.s_mach" %% "codetools" % "1.0.3"
   ))

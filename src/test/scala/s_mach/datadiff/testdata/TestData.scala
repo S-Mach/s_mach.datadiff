@@ -68,56 +68,57 @@ object TestData4 {
   implicit val dataDiff_TestData4 = DataDiff.forProductType[TestData4,TestData4Patch]
 }
 
-//
-//case class TestEnumPatch(value1: Option[String])
-//sealed trait TestEnum extends Product
-//case object TestEnum1 extends TestEnum
-//case object TestEnum2 extends TestEnum
-//case object TestEnum3 extends TestEnum
-//object TestEnum {
-//  val values = List(TestEnum1,TestEnum2,TestEnum3)
-//  def apply(value1: String) : TestEnum = values.find(_.toString == value1).get
-//  def unapply(e:TestEnum) : Option[String] = Some(e.toString)
-//  implicit val dataDiff_TestEnum = DataDiff.forProductType[TestEnum,TestEnumPatch]
-//}
-//
 
-//case class TestADTPatch(
-//  _type: StringPatch,
-//  value1: OptionPatch[String, StringPatch],
-//  value2: OptionPatch[Double, DoublePatch]
-//)
-//sealed trait TestADT
-//case class TestADT_1(value1: String) extends TestADT
-//case class TestADT_2(value2: Double) extends TestADT
-//object TestADT {
-//  def apply(_type: String, value1: Option[String], value2: Option[Double]) : TestADT = {
-//    _type match {
-//      case "TestADT_1" => TestADT_1(value1.get)
-//      case "TestADT_2" => TestADT_2(value2.get)
-//    }
-//  }
-//  def unapply(tb:TestADT) : Option[(String,Option[String],Option[Double])] = {
-//    tb match {
-//      case TestADT_1(value1) => Some(("TestADT_1",Some(value1),None))
-//      case TestADT_2(value2) => Some(("TestADT_2",None,Some(value2)))
-//    }
-//  }
-//  implicit val dataDiff_TestADT = DataDiff.forProductType[TestADT,TestADTPatch]
-//}
+case class TestEnumPatch(value1: Option[String])
+sealed trait TestEnum extends Product
+case object TestEnum1 extends TestEnum
+case object TestEnum2 extends TestEnum
+case object TestEnum3 extends TestEnum
+object TestEnum {
+  val values = List(TestEnum1,TestEnum2,TestEnum3)
+  def apply(value1: String) : TestEnum = values.find(_.toString == value1).get
+  def unapply(e:TestEnum) : Option[String] = Some(e.toString)
+  implicit val dataDiff_TestEnum = DataDiff.forProductType[TestEnum,TestEnumPatch]
+}
 
 
-//case class TestData5(value1: TestBaseADT, value2: TestEnum)
-//
-//object TestData5 {
-//  implicit val dataDiff_TestData5 =
-//    DataDiff.forProductType[TestData5]
-//}
+case class TestADTPatch(
+  _type: StringPatch,
+  value1: OptionPatch[String, StringPatch],
+  value2: OptionPatch[Double, DoublePatch]
+)
+sealed trait TestADT extends Product
+case class TestADT_1(value1: String) extends TestADT
+case class TestADT_2(value2: Double) extends TestADT
+object TestADT {
+  def apply(_type: String, value1: Option[String], value2: Option[Double]) : TestADT = {
+    _type match {
+      case "TestADT_1" => TestADT_1(value1.get)
+      case "TestADT_2" => TestADT_2(value2.get)
+    }
+  }
+  def unapply(tb:TestADT) : Option[(String,Option[String],Option[Double])] = {
+    tb match {
+      case TestADT_1(value1) => Some(("TestADT_1",Some(value1),None))
+      case TestADT_2(value2) => Some(("TestADT_2",None,Some(value2)))
+    }
+  }
+  implicit val dataDiff_TestADT = DataDiff.forProductType[TestADT,TestADTPatch]
+}
 
-//case class TestData6[A <: TestBaseADT](value1: A)
+case class TestData5Patch(value1: TestADTPatch, value2: TestEnumPatch)
+case class TestData5(value1: TestADT, value2: TestEnum)
+
+object TestData5 {
+  implicit val dataDiff_TestData5 =
+    DataDiff.forProductType[TestData5,TestData5Patch]
+}
+
+//case class TestData6Patch[A <: TestADT](value1: )
+//case class TestData6[A <: TestADT](value1: A)
 //
 //object TestData6 {
-//  implicit def mkDataData_TestData6[A <: TestBaseADT,P,PA](implicit
+//  implicit def mkDataData_TestData6[A <: TestADT,P,PA](implicit
 //    aDataDiff:DataDiff[A,PA]
 //  ) : DataDiff[TestData6[A],P] =
 //      DataDiff.forProductType[TestData6[A],P]

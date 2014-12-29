@@ -39,10 +39,14 @@ class SetDataDiffImpl[A](implicit
   }
 
   override def applyPatch(value: Set[A], patch: Patch): Set[A] = {
-    val builder = cbf()
-    value.iterator.filterNot(patch.remove.contains).foreach(builder.+=)
-    builder ++= patch.add
-    builder.result()
+    if(patch != noChange) {
+      val builder = cbf()
+      value.iterator.filterNot(patch.remove.contains).foreach(builder.+=)
+      builder ++= patch.add
+      builder.result()
+    } else {
+      value
+    }
   }
 
 }

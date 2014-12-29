@@ -58,17 +58,21 @@ class MapDataDiffImpl[A,B,P](implicit
   }
 
   override def applyPatch(value: Map[A,B], patch: Patch): Map[A,B] = {
-    val builder = Map.newBuilder[A,B]
-    builder ++= value.iterator
-      .collect { case t@(a,b) if patch.remove.contains(a) == false =>
-        patch.change.get(a) match {
-          case Some(bPatch) =>
-            (a, bDiff.applyPatch(b, bPatch))
-          case None => t
+    if(patch != noChange) {
+      val builder = Map.newBuilder[A,B]
+      builder ++= value.iterator
+        .collect { case t@(a,b) if patch.remove.contains(a) == false =>
+          patch.change.get(a) match {
+            case Some(bPatch) =>
+              (a, bDiff.applyPatch(b, bPatch))
+            case None => t
+          }
         }
-      }
-    builder ++= patch.add
-    builder.result()
+      builder ++= patch.add
+      builder.result()
+    } else {
+      value
+    }
   }
 
 }

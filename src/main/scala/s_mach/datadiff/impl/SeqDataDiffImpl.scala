@@ -67,11 +67,15 @@ class SeqDataDiffImpl[A,M[AA] <: Seq[AA]](implicit
   }
 
   override def applyPatch(value: M[A], patch: Patch): M[A] = {
-    val builder = cbf()
-    val jPatch = new difflib.Patch[A]
-    patch.zomDelta.foreach(delta => jPatch.addDelta(deltaToJDelta(delta)))
-    jPatch.applyTo(value.asJava).iterator.asScala.foreach(builder.+=)
-    builder.result()
+    if(patch != noChange) {
+      val builder = cbf()
+      val jPatch = new difflib.Patch[A]
+      patch.zomDelta.foreach(delta => jPatch.addDelta(deltaToJDelta(delta)))
+      jPatch.applyTo(value.asJava).iterator.asScala.foreach(builder.+=)
+      builder.result()
+    } else {
+      value
+    }
   }
 
 }
