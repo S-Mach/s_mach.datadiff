@@ -108,13 +108,13 @@ res1: Boolean = true
 scala> val p3 = p1 applyPatch patch1
 p3: Person = Person(Name(Gary,Some(Freakn'),Oldman),57)
 
-scala> p2 == p1
-res2: Boolean = false
+scala> p3 == p2
+res2: Boolean = true
 
-scala> val p3 = p1 applyPatch patch2
-p3: Person = Person(Name(Gary,None,Oldman),56)
+scala> val p4 = p1 applyPatch patch2
+p4: Person = Person(Name(Gary,None,Oldman),56)
 
-scala> p3 == p1
+scala> p4 == p1
 res3: Boolean = true
 
 ----
