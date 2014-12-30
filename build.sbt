@@ -75,5 +75,5 @@ lazy val dataDiffCore = Project(
 )
   .settings(defaultSettings: _*)
   .settings(libraryDependencies ++= Seq(
-    "net.s_mach" %% "codetools" % "1.0.3"
+    "net.s_mach" %% "codetools" % "1.0.4"
   ))
