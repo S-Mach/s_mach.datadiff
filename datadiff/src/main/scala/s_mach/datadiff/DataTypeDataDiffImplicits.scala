@@ -43,4 +43,10 @@ trait DataTypeDataDiffImplicits {
   type BigIntPatch = DataDiff_BigInt.Patch
   implicit object DataDiff_BigDecimal extends NumericDataDiffImpl[BigDecimal]
   type BigDecimalPatch = DataDiff_BigDecimal.Patch
+
+  implicit object DataDiff_Unit extends DataDiff[Unit, Unit] {
+    val noChange: Unit = ()
+    def applyPatch(value: Unit, patch: Unit): Unit = ()
+    def calcDiff(oldValue: Unit, newValue: Unit): Unit = ()
+  }
 }

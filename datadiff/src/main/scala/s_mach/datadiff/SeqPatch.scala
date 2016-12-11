@@ -42,7 +42,7 @@ object SeqPatch {
 
   case class Delta[+A](
     _type: DeltaType,
-    @deprecated("do not use","1.0.0") original: Chunk[A],
+    original: Chunk[A],
     revised: Chunk[A]
   )
 

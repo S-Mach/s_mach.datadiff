@@ -23,8 +23,8 @@ object AllTupleDataDiffImplicitsCodeGen {
     val lcs = ('a' to 'z').map(_.toString).take(n)
     val ucs = ('A' to 'Z').map(_.toString).take(n)
     val allUcs = ucs.mkString(",")
-    val allLcs = lcs.mkString(",")
-    val allPatchUcs = ucs.map(uc => s"P$uc").mkString(",")
+//    val allLcs = lcs.mkString(",")
+//    val allPatchUcs = ucs.map(uc => s"P$uc").mkString(",")
     val aType = s"($allUcs)"
     val pType = s"(${ucs.map(uc => s"Option[P$uc]").mkString(",")})"
     val typeParms =

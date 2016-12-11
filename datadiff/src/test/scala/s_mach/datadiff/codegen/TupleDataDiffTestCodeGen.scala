@@ -20,10 +20,10 @@ package s_mach.datadiff.codegen
 
 object TupleDataDiffTestCodeGen {
   def gen(n: Int) = {
-    val lcs = ('a' to 'z').map(_.toString).take(n)
-    val ucs = ('A' to 'Z').map(_.toString).take(n)
-    val allUcs = ucs.mkString(",")
-    val allLcs = lcs.mkString(",")
+//    val lcs = ('a' to 'z').map(_.toString).take(n)
+//    val ucs = ('A' to 'Z').map(_.toString).take(n)
+//    val allUcs = ucs.mkString(",")
+//    val allLcs = lcs.mkString(",")
     val indices = 0 until n
     s"""
   "Tuple${n}Diff.diff" must "detect differences between the old and new value" in {

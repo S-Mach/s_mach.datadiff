@@ -23,10 +23,6 @@ package object datadiff extends
   CollectionDataDiffImplicits with
   DataTypeDataDiffImplicits {
 
-  trait InferDataDiff[A] {
-    def infer[P](implicit ev:DataDiff[A,P]) : DataDiff[A,P]
-  }
-
   /**
    * Get the DataDiff instance for a type by inferring the patch type
    * @tparam A the type
@@ -37,9 +33,6 @@ package object datadiff extends
     def infer[P](implicit aDiff:DataDiff[A,P]) = aDiff
   }
 
-  trait InferPatch[A] extends InferDataDiff[A] {
-    def noChange[P](implicit ev:DataDiff[A,P]) : P
-  }
   def patchFor[A] = new InferPatch[A] {
     /** @return the DataDiff implementation for A */
     def infer[P](implicit aDiff:DataDiff[A,P]) = aDiff

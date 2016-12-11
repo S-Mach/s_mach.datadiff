@@ -21,7 +21,7 @@ package s_mach.datadiff.impl
 
 import scala.reflect.macros.blackbox
 import s_mach.datadiff.DataDiff
-import s_mach.codetools.{Result, BlackboxHelper}
+import s_mach.codetools.macros.{Result, BlackboxHelper}
 
 class DataDiffMacroBuilderImpl(
   val c: blackbox.Context,
