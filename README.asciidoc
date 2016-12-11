@@ -28,8 +28,7 @@ no runtime reflection.
 ----
 libraryDependencies += "net.s_mach" %% "datadiff" % "1.1.0"
 ----
-NOTE: +s_mach.datadiff+ is currently only compiled for Scala 2.11 (though 2.10.4
-support can be added if there is interest)
+NOTE: +s_mach.datadiff+ is cross compiled for Scala 2.11/JDK6 and 2.12/JDK8
 
 == Versioning
 +s_mach.datadiff+ uses semantic versioning (http://semver.org/).
