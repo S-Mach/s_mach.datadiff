@@ -24,7 +24,7 @@ class BooleanDataDiffImpl extends DataDiff[Boolean, Boolean] {
   override val noChange = false
 
   override def calcDiff(oldValue: Boolean, newValue: Boolean): Boolean = {
-    oldValue == newValue
+    oldValue != newValue
   }
 
   override def applyPatch(value: Boolean, patch: Boolean): Boolean = {

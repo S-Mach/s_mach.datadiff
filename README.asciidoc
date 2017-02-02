@@ -25,7 +25,7 @@ no runtime reflection.
 +
 [source,sbt,numbered]
 ----
-libraryDependencies += "net.s_mach" %% "datadiff" % "1.1.0"
+libraryDependencies += "net.s_mach" %% "datadiff" % "1.1.1"
 ----
 NOTE: +s_mach.datadiff+ is cross compiled for Scala 2.11/JDK6 and 2.12/JDK8
 
